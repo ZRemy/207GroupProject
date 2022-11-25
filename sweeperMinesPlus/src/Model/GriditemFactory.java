@@ -3,7 +3,7 @@ package Model;
 import java.util.Objects;
 
 public class GriditemFactory {
-    private GridItem createGridItem(String name, int strength){
+    private GridItem createGridItem(String name, int strength, SweeperBoard board){
         if (Objects.equals(name, "bomb")){
             return new Bomb(name, strength);
         }
@@ -11,7 +11,7 @@ public class GriditemFactory {
             return new BonusLife(name, strength);
         }
         else {
-            return new Empty();
+            return new Empty(board);
         }
     }
 }

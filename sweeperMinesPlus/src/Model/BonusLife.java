@@ -9,7 +9,7 @@ public class BonusLife implements GridItem{
         strength = s;
     }
     @Override
-    public void applygridItem() {
-
+    public int applygridItem() {
+        return 0;
     }
 }
