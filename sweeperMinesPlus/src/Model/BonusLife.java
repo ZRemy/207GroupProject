@@ -5,10 +5,15 @@ public class BonusLife implements GridItem{
     private int strength;
 
     public BonusLife(String n, int s){
-        throw new UnsupportedOperationException();
+        name = n;
+        strength = s;
     }
     @Override
     public int applygridItem() {
-        throw new UnsupportedOperationException();
+        return 0;
+    }
+    @Override
+    public String toString() {
+        return "BonusLife";
     }
 }
