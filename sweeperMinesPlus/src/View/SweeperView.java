@@ -13,9 +13,7 @@ public class SweeperView{
     Canvas canvas;
     GraphicsContext gc;
     public SweeperView(SweeperModel model, Stage stage) {
-        this.model = model;
-        this.stage = stage;
-        initUI();
+        throw new UnsupportedOperationException();
     }
     private void initUI() {
 
@@ -31,6 +29,6 @@ public class SweeperView{
 
     }
     private void createLeaderboard(){
-        Leaderboard leaderboard = new Leaderboard();
+        throw new UnsupportedOperationException();
     }
 }

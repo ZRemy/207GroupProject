@@ -4,12 +4,11 @@ public class Bomb implements GridItem {
     private String name;
     private int strength;
     public Bomb(String n, int s){
-        name = n;
-        strength = s;
+        throw new UnsupportedOperationException();
     }
     @Override
     public int applygridItem() {
 
-        return 0;
+        throw new UnsupportedOperationException();
     }
 }
