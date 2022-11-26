@@ -12,4 +12,8 @@ public class Bomb implements GridItem {
 
         return 0;
     }
+    @Override
+    public String toString() {
+        return "Bomb";
+    }
 }

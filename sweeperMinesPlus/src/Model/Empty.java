@@ -16,4 +16,9 @@ public class Empty implements GridItem{
          */
         return num_surrounding;
     }
+
+    @Override
+    public String toString() {
+        return "Empty";
+    }
 }

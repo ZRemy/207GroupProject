@@ -12,4 +12,8 @@ public class BonusLife implements GridItem{
     public int applygridItem() {
         return 0;
     }
+    @Override
+    public String toString() {
+        return "BonusLife";
+    }
 }
