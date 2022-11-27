@@ -1,16 +1,18 @@
 package View;
 
-import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class LeaderboardView extends Application {
+public class LeaderboardView{
+    public LeaderboardView(SweeperView sweeperView){
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+        Group root = new Group();
+        Scene scene = new Scene(root, 600, 600, Color.LIGHTBLUE);
+        Stage stage = new Stage();
 
-    @Override
-    public void start(Stage primaryStage) {
-
+        stage.setScene(scene);
+        stage.show();
     }
 }

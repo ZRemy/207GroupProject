@@ -5,5 +5,9 @@ public class SweeperModel {
     protected int count; // How many tiles uncovered
     protected int score;
 
+    public void startGame(){
+        throw new UnsupportedOperationException();
+    }
+
 
 }
