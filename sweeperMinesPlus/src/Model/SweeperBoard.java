@@ -3,47 +3,48 @@ package Model;
 import java.util.Random;
 
 public class SweeperBoard {
-    private int width; //board height and width
-    private int height;
+    protected int width; //board height and width
+    protected int height;
 
     private int num_bombs;
 
     private int num_powerups;
-    protected Object[][] sweeperGrid;
+    protected GridItem[][] sweeperGrid;
 
     public SweeperBoard(int w, int h, int num_b, int num_p){
         num_bombs = num_b;
         num_powerups = num_p;
         width = w;
         height = h;
-        sweeperGrid = new Object[width][height];
+        sweeperGrid = new GridItem[width][height];
         createBoard();
     }
     private void createBoard(){
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                sweeperGrid[x][y] = GriditemFactory.createGridItem("", 0, this);
+                sweeperGrid[x][y] = GriditemFactory.createGridItem("", 0, this, x, y);
             }
         }
         int k = 0;
         for (int i = 0; i < num_bombs; i ++){
+            sweeperGrid[k][i -(height  * k)] = GriditemFactory.createGridItem("bomb", i % 2 + 1, this, k, i -(height  * k));
             if ((i + 1) % height == 0 ){
                 k ++;
             }
-            sweeperGrid[k][i -(height * k) + 1] = GriditemFactory.createGridItem("bomb", i % 2 + 1, this);
+
             }
 
         k ++;
         int z = k;
         for (int i = 0; i < num_powerups; i++){
+            sweeperGrid[k][i - (height * (k - z))] = GriditemFactory.createGridItem("bonuslife", i % 2 + 1, this, k, (height * (k - z)));
             if ((i + 1)  % height == 0 ){
                 k ++;
             }
-            sweeperGrid[k][i - (height * (k - z)) + 1] = GriditemFactory.createGridItem("bonuslife", i % 2 + 1, this);
+
         }
         shuffleBoard();
     }
-
 
     private void shuffleBoard(){
         Random random = new Random();
@@ -52,11 +53,18 @@ public class SweeperBoard {
                 int m = random.nextInt(i + 1);
                 int n = random.nextInt(j + 1);
 
-                Object temp = sweeperGrid[i][j];
+                GridItem temp = sweeperGrid[i][j];
                 sweeperGrid[i][j] = sweeperGrid[m][n];
                 sweeperGrid[m][n] = temp;
             }
         }
+
+    }
+    public int getHeight() {
+        return height;
     }
 
+    public int getWidth() {
+        return width;
+    }
 }

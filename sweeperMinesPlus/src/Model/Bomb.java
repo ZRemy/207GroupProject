@@ -1,16 +1,29 @@
 package Model;
 
+
+/** Bomb gridItem for MineSweeper
+ *
+ */
 public class Bomb implements GridItem {
-    private String name;
+
     private int strength;
-    public Bomb(String n, int s){
-        name = n;
+
+    /**
+     * Constructor for a MineSweeper bomb.
+
+     * @param s strength of the griditem
+     */
+    public Bomb(int s){
         strength = s;
     }
+
+    /**
+     * Applies the bomb
+     * @return the number of lives to be drained from the player
+     */
     @Override
     public int applygridItem() {
-
-        return 0;
+        return -strength;
     }
     @Override
     public String toString() {
