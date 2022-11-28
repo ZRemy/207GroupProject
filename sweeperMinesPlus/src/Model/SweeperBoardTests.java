@@ -32,19 +32,12 @@ public class SweeperBoardTests {
         assertEquals(9, y);
         assertEquals(40, x);
         assertNotEquals(grid1, grid2);// Make sure that the board shuffles correctly.
-        System.out.println(grid1);
-        System.out.println();
 
-        System.out.println();
-
-        System.out.println(grid2);
 
     }
     @Test
     void testApplyGridItemsEmpty() {
         SweeperBoard board1 = new SweeperBoard(16, 16, 256, 0);
-        String grid1 = Arrays.deepToString(board1.sweeperGrid).replace("], ", "]\n").replace("[[", "[").replace("]]", "]");
-        System.out.print(grid1);
         board1.sweeperGrid[0][0] = new Empty(board1, 0,0);
         board1.sweeperGrid[4][9] = new Empty(board1, 4,9);
         board1.sweeperGrid[15][15] = new Empty(board1, 15,15);
