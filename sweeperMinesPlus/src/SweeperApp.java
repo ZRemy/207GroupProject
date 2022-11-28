@@ -1,3 +1,4 @@
+import View.SweeperView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -9,6 +10,6 @@ public class SweeperApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        new SweeperView(primaryStage);
     }
 }

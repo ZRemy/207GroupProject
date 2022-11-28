@@ -58,4 +58,7 @@ public class SweeperModel {
         leaderboard.playerScores.put(player.name, player.score);
     }
 
+    public SweeperBoard getBoard() {
+        return board;
+    }
 }
