@@ -8,6 +8,7 @@ public class DifficultyEasy implements AIDifficulty {
         this.bombChance = .2;
     }
     @Override
-    public void AIMove() {
+    public void AIMove(GridItem model) {
+
     }
 }

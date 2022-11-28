@@ -9,6 +9,6 @@ public class DifficultyHard implements AIDifficulty{
     }
 
     @Override
-    public void AIMove() {
+    public void AIMove(GridItem model) {
     }
 }
