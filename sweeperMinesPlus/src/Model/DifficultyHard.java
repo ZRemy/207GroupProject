@@ -1,8 +1,14 @@
 package Model;
 
 public class DifficultyHard implements AIDifficulty{
-    @Override
-    public void AIMove() {
 
+    private double bombChance;
+
+    public DifficultyHard() {
+        this.bombChance = .05;
+    }
+
+    @Override
+    public void AIMove(GridItem model) {
     }
 }
