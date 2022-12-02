@@ -2,7 +2,7 @@ package Model;
 
 import java.io.Serializable;
 
-public class AdversarialAI {
+public class AdversarialAI implements Serializable {
 
     // AIDiffiulty
     private AIDifficulty difficulty;
@@ -26,8 +26,15 @@ public class AdversarialAI {
      * Have the AI execute a move and apply the grid item to a AI
      * @param model difficulty of the AI
      */
-    public GridItem AIMove(SweeperBoard model) {
-        return this.difficulty.AIMove(model);
+    public void AIMove(GridItem model) {
+        this.difficulty.AIMove(model);
+    }
+
+    public void AILose() {
+        this.lives = 0;
+        /*
+        ONCE END GAME IS IMPLEMENTED, FINISH THIS.
+         */
     }
 
     public void setDifficulty(String d) {
