@@ -27,7 +27,7 @@ public class SweeperBoard {
         }
         int k = 0;
         for (int i = 0; i < num_bombs; i ++){
-            sweeperGrid[k][i -(height  * k)] = GriditemFactory.createGridItem("bomb", i % 2 + 1, this, k, i -(height  * k));
+            sweeperGrid[k][i -(height  * k)] = GriditemFactory.createGridItem("bomb", 1, this, k, i -(height  * k));
             if ((i + 1) % height == 0 ){
                 k ++;
             }

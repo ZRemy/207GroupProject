@@ -6,15 +6,13 @@ package Model;
  */
 public class Bomb implements GridItem {
 
-    private int strength;
+
 
     /**
      * Constructor for a MineSweeper bomb.
 
-     * @param s strength of the griditem
      */
-    public Bomb(int s){
-        strength = s;
+    public Bomb(){
     }
 
     /**
@@ -23,7 +21,7 @@ public class Bomb implements GridItem {
      */
     @Override
     public int applygridItem() {
-        return -strength;
+        return -1;
     }
     @Override
     public String toString() {
