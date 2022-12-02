@@ -26,7 +26,7 @@ public class SweeperModel {
         count = c;
         score = s;
         player = p;
-        //leaderboard = Leaderboard.getInstance();
+        leaderboard = Leaderboard.getInstance();
         gameOver = false;
     }
 
