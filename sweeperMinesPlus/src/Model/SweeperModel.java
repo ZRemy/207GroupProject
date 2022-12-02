@@ -23,7 +23,7 @@ public class SweeperModel {
         count = c;
         score = s;
         player = p;
-        leaderboard = Leaderboard.getInstance();
+        //leaderboard = Leaderboard.getInstance();
         gameOver = false;
     }
 
@@ -49,13 +49,13 @@ public class SweeperModel {
     /**
      *  Updates the leaderboard with the player's highscore.
      */
-    public void updateLeaderboard(){
-        if (leaderboard.playerScores.containsKey(player.name)){
-            if (leaderboard.playerScores.get(player.name) > player.score){
-                return;
-            }
-        }
-        leaderboard.playerScores.put(player.name, player.score);
-    }
-
+//    public void updateLeaderboard(){
+//        if (leaderboard.playerScores.containsKey(player.name)){
+//            if (leaderboard.playerScores.get(player.name) > player.score){
+//                return;
+//            }
+//        }
+//        leaderboard.playerScores.put(player.name, player.score);
+//    }
+//
 }
