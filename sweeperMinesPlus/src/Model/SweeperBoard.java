@@ -67,4 +67,8 @@ public class SweeperBoard {
     public int getWidth() {
         return width;
     }
+
+    public Object[][] getSweeperGrid() {
+        return sweeperGrid;
+    }
 }
