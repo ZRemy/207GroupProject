@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.*;
-import java.util.Map.Entry;
-
 public class SweeperModel {
     protected SweeperBoard board;
     protected int count; // How many tiles uncovered
@@ -59,27 +56,6 @@ public class SweeperModel {
             }
         }
         leaderboard.playerScores.put(player.name, player.score);
-        sortLeaderboardScores();
     }
 
-    /**
-     * Sorts the leaderboard scores in descending order; Facilitates the transfer of top scores into the leaderboard UI.
-     */
-    public void sortLeaderboardScores(){
-        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-            list.add(entry.getValue());
-        }
-        Collections.sort(list);
-        Collections.reverse(list);
-        for (Integer val : list) {
-            for (Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-                if (entry.getValue().equals(val)) {
-                    sortedMap.put(entry.getKey(), val);
-                }
-            }
-        }
-        leaderboard.playerScores = sortedMap;
-    }
 }

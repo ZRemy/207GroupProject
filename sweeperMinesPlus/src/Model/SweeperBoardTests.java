@@ -3,7 +3,7 @@ package Model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -49,36 +49,5 @@ public class SweeperBoardTests {
         assertEquals(3,board1.sweeperGrid[0][15].applygridItem());
         assertEquals(8,board1.sweeperGrid[4][9].applygridItem());
     }
-
-    public void sortLeaderboardScores(Leaderboard leaderboard){
-        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-            list.add(entry.getValue());
-        }
-        Collections.sort(list);
-        Collections.reverse(list);
-        for (Integer val : list) {
-            for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-                if (entry.getValue().equals(val)) {
-                    sortedMap.put(entry.getKey(), val);
-                }
-            }
-        }
-        leaderboard.playerScores = sortedMap;
-    }
-    @Test
-    void leaderBoardScores(){
-
-        Leaderboard board = Leaderboard.getInstance();
-        board.playerScores.put("Remy", 50);
-        board.playerScores.put("Marc", 50000);
-        board.playerScores.put("Steven", 5000);
-        board.playerScores.put("Bennet", 500);
-        sortLeaderboardScores(board);
-        System.out.println(board.playerScores);
-
-    }
-
     }
 
