@@ -3,7 +3,6 @@ package View;
 
 import Model.*;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,6 +15,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Objects;
 
 public class SweeperView{
     SweeperModel model;
@@ -68,46 +69,15 @@ public class SweeperView{
 //            }
 //        }
 
-        for (int y = 0; y < board.getWidth(); y++) {
-            for (int x = 0; x < board.getHeight(); x++) {
-
-                if (board.getSweeperGrid()[y][x].toString() == "Bomb") {
-
-                    // Set the buttons as initially "blank/empty", and when a Mouse click event happens, the method
-                    // revealButton will be activated and reveal an image of the bomb.
-                    Button bomb = new Button();
-                    Image emptyImage = new Image("/bomb10.png");
-                    resizeButton(bomb, emptyImage, x, y);
-                    int finalY = y;
-                    int finalX = x;
-                    bomb.setOnAction(actionEvent ->
-                            revealButton("Bomb", finalX, finalY));
-
-
-                    // Edit later and add method that opens all the bomb when a single bomb is clicked.
-                }
-                else if (board.getSweeperGrid()[y][x].toString() == "BonusLife") {
-                    Button bonus = new Button();
-                    Image emptyImage = new Image("/Empty.png");
-                    resizeButton(bonus, emptyImage, x, y);
-                    int finalY = y;
-                    int finalX = x;
-                    bonus.setOnAction(actionEvent ->
-                            revealButton("BonusLife", finalX, finalY));
-                }
-                else if (board.getSweeperGrid()[y][x].toString() == "Empty") {
-                    Button emptyCell = new Button();
-                    Image emptyImage = new Image("/Empty.png");
-                    resizeButton(emptyCell, emptyImage, x, y);
-                    int finalY1 = y;
-                    int finalX1 = x;
-                    emptyCell.setOnAction(actionEvent ->
-                            revealButton("Empty", finalX1, finalY1));
-                }
-                else {
-                    Button bomb = new Button(board.getSweeperGrid()[y][x].toString());
-                    boardGrid.add(bomb, y, x);
-                }
+        for (int row = 0; row < board.getWidth(); row++) {
+            for (int col = 0; col < board.getHeight(); col++) {
+                Button button = new Button();
+                Image emptyImage = new Image("Empty.png");
+                resizeButton(button, emptyImage, row, col);
+                int finalY = col;
+                int finalX = row;
+                button.setOnAction(actionEvent ->
+                        revealButton(finalX, finalY));
             }
         }
         return boardGrid;
@@ -116,67 +86,24 @@ public class SweeperView{
     /**
      * Helper method for createGrid() in order to update the image of the tile and whether it's a Bomb, BonusLife, or
      * still an empty cell.
-     * @param type the type of image that will be displayed (this will be a Number, Bomb, or BonusLife)
      * @param x the x coordinate of the tile
      * @param y the y coordinate of the tile
      */
-    private void revealButton(String type, int x, int y) {
-
-        if (type == "Bomb") {
-            Button bomb = new Button();
-            Image image = new Image("/bomb10.png");
-            resizeButton(bomb, image, x, y);
-            System.out.println("GAME OVER");
+    private void revealButton(int x, int y) {
+        String type = model.getBoard().getSweeperGrid()[x][y].toString();
+        Button button = new Button();
+        int val = model.uncoverTile(x,y);
+        if (val == -2){
             gameOver();
-
-
-        } else if (type == "BonusLife") {
-            Button bonus = new Button();
-            Image bonusImage = new Image("/bonus.png");
-            resizeButton(bonus, bonusImage, x, y);
-
-        } else {
-            Empty tile = new Empty(board, y, x);
-            if (tile.applygridItem() != 0) {
-                if (tile.applygridItem() == 1) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num1.png");
-                    resizeButton(one, oneImage, x, y);
-
-                } else if (tile.applygridItem() == 2) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num2.png");
-                    resizeButton(one, oneImage, x, y);
-
-                } else if (tile.applygridItem() == 3) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num3.png");
-                    resizeButton(one, oneImage, x, y);
-
-                } else if (tile.applygridItem() == 4) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num4.png");
-                    resizeButton(one, oneImage, x, y);
-
-                } else if (tile.applygridItem() == 5) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num5.png");
-                    resizeButton(one, oneImage, x, y);
-                } else if (tile.applygridItem() == 6) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num6.png");
-                    resizeButton(one, oneImage, x, y);
-                } else if (tile.applygridItem() == 7) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num7.png");
-                    resizeButton(one, oneImage, x, y);
-                } else if (tile.applygridItem() == 8) {
-                    Button one = new Button();
-                    Image oneImage = new Image("/num8.png");
-                    resizeButton(one, oneImage, x, y);
-                }
-            }
         }
+        Image image;
+        if (val > 0) {
+            image = new Image("/num" + val + ".png");
+        }
+        else{
+            image = new Image("/" + type + ".png");
+        }
+        resizeButton(button, image, x, y);
     }
 
     /**
@@ -198,7 +125,7 @@ public class SweeperView{
         // sizes of the buttons must match up.
         currButton.setPrefSize(15, 15);
         currButton.setGraphic(view);
-        boardGrid.add(currButton, y, x);
+        boardGrid.add(currButton, x, y);
     }
 
     /**
