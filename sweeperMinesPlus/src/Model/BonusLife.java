@@ -5,7 +5,7 @@ package Model;
  */
 public class BonusLife implements GridItem{
 
-    private int strength;
+    private final int strength;
 
     /**
      * Constructor for BonusLife

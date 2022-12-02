@@ -6,9 +6,9 @@ public class SweeperBoard {
     protected int width; //board height and width
     protected int height;
 
-    private int num_bombs;
+    private final int num_bombs;
 
-    private int num_powerups;
+    private final int num_powerups;
     protected GridItem[][] sweeperGrid;
 
     public SweeperBoard(int w, int h, int num_b, int num_p){
