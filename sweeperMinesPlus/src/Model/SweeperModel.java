@@ -1,7 +1,9 @@
 package Model;
 
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SweeperModel {
     protected SweeperBoard board;
@@ -26,7 +28,7 @@ public class SweeperModel {
         count = c;
         score = s;
         player = p;
-        //leaderboard = Leaderboard.getInstance();
+        leaderboard = Leaderboard.getInstance();
         gameOver = false;
     }
 
@@ -59,7 +61,10 @@ public class SweeperModel {
             }
         }
         leaderboard.playerScores.put(player.name, player.score);
-        sortLeaderboardScores();
+    }
+
+    public SweeperBoard getBoard() {
+        return board;
     }
 
     /**
@@ -74,7 +79,7 @@ public class SweeperModel {
         Collections.sort(list);
         Collections.reverse(list);
         for (Integer val : list) {
-            for (Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
+            for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
                 if (entry.getValue().equals(val)) {
                     sortedMap.put(entry.getKey(), val);
                 }
