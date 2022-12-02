@@ -49,13 +49,13 @@ public class SweeperModel {
     /**
      *  Updates the leaderboard with the player's highscore.
      */
-//    public void updateLeaderboard(){
-//        if (leaderboard.playerScores.containsKey(player.name)){
-//            if (leaderboard.playerScores.get(player.name) > player.score){
-//                return;
-//            }
-//        }
-//        leaderboard.playerScores.put(player.name, player.score);
-//    }
-//
+    public void updateLeaderboard(){
+        if (leaderboard.playerScores.containsKey(player.name)){
+            if (leaderboard.playerScores.get(player.name) > player.score){
+                return;
+            }
+        }
+        leaderboard.playerScores.put(player.name, player.score);
+    }
+
 }
