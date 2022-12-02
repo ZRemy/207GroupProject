@@ -17,7 +17,7 @@ public class Bomb implements GridItem {
 
     /**
      * Applies the bomb
-     * @return the number of lives to be drained from the player
+     * @return the number of lives to be drained from the player, which is always 1.
      */
     @Override
     public int applygridItem() {
