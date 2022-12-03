@@ -1,45 +1,116 @@
 package View;
-
-
 import Model.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
-import java.util.Objects;
 
+/**
+ * The SweeperView class is responsible for implementing the GUI of the MineSweeper game. Taking advantage of the
+ * implemented backend features, SweeperView will use different attributes and methods that will display the game
+ * and its various features.
+ */
 public class SweeperView{
     SweeperModel model;
     SweeperBoard board;
     Stage stage;
-    Canvas canvas;
-    GraphicsContext gc;
     private Scene scene;
     GridPane boardGrid = new GridPane();
 
 
+    /**
+     * The constructor, which initializes the stage of where and how the scenes will be set up.
+     * @param stage
+     */
     public SweeperView(Stage stage) {
         this.stage = stage;
         initUI();
     }
 
+
+    /**
+     * Initializes the SweeperView. This will create three scenes (basically windows), which the user will interact
+     * with as the user runs the application.
+     */
     private void initUI() {
+        Group menu = new Group();
+
+        // Scene/window for the game
         scene = new Scene(createGrid(), 1000, 500);
         this.stage.setTitle("CSC207 MineSweeper");
-        this.stage.setScene(scene);
-        this.stage.show();
 
+        // Scene/window for the menu/intro window
+        Scene menuScene = new Scene(menu, 1000, 500);
+        Button game = new Button("Single Player");
+        game.setPrefSize(100, 100);
+        game.setStyle("-fx-background-color: grey");
+        game.setLayoutY(200);
+        game.setLayoutX(300);
+
+        Button game2 = new Button("Against AI");
+        game2.setPrefSize(100, 100);
+        game2.setStyle("-fx-background-color: grey");
+        game2.setLayoutY(200);
+        game2.setLayoutX(600);
+        menu.getChildren().add(game2);
+
+        Menu mode = new Menu("MODE");
+        MenuItem d = new MenuItem("Dark Mode");
+        MenuItem n = new MenuItem("Night Shift");
+        MenuItem dn = new MenuItem("Dark Mode & Night Shift");
+        mode.getItems().add(d);
+        mode.getItems().add(n);
+        mode.getItems().add(dn);
+
+        Menu diff = new Menu("AI-DIFFICULTY");
+        MenuItem easy = new MenuItem("Easy");
+        MenuItem medium = new MenuItem("Medium");
+        MenuItem hard = new MenuItem("Hard");
+        diff.getItems().add(easy);
+        diff.getItems().add(medium);
+        diff.getItems().add(hard);
+
+
+        MenuBar mb = new MenuBar();
+        mb.getMenus().add(mode);
+        mb.getMenus().add(diff);
+        menu.getChildren().add(mb);
+
+        menu.getChildren().add(game);
+        this.stage.setScene(menuScene);
+        game.setOnAction(actionEvent -> this.stage.setScene(scene));
+
+        FadeTransition f = new FadeTransition(Duration.millis(3000), game);
+        f.setFromValue(1.0);
+        f.setToValue(0.0);
+
+        f.setCycleCount(Timeline.INDEFINITE);
+        f.setAutoReverse(true);
+        f.play();
+
+        Label welcome = new Label("Welcome to our MineSweeper Game!");
+        welcome.setFont(Font.font("Verdana", FontPosture.REGULAR, 40));
+        welcome.setTranslateX(140);
+        welcome.setTranslateY(100);
+
+        menu.getChildren().add(welcome);
+
+        this.stage.show();
     }
+
 
     /**
      * Given the SweeperBoard, create the MineSweeper Grid and display it on the window. Each cell grid
@@ -83,6 +154,7 @@ public class SweeperView{
         return boardGrid;
     }
 
+
     /**
      * Helper method for createGrid() in order to update the image of the tile and whether it's a Bomb, BonusLife, or
      * still an empty cell.
@@ -106,6 +178,7 @@ public class SweeperView{
         resizeButton(button, image, x, y);
     }
 
+
     /**
      * Helper method for resizing the image and button so that all buttons in the board have the same dimensions.
      * @param currButton the current button that needs resizing.
@@ -128,6 +201,7 @@ public class SweeperView{
         boardGrid.add(currButton, x, y);
     }
 
+
     /**
      * This method is used when a bomb is clicked on the board. This sets the current scene to a different scene
      * that d
@@ -145,9 +219,13 @@ public class SweeperView{
     }
 
 
+    /**
+     * Update board on UI
+     */
     private void updateBoard() {
 
     }
+
 
     /**
      * Update score on UI
