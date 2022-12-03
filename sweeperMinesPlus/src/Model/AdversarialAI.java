@@ -1,11 +1,12 @@
 package Model;
 
-import java.io.Serializable;
-
+/**
+ * AdversarialAI that the player will play against if a certain mode is chosen
+ */
 public class AdversarialAI {
 
     // AIDiffiulty
-    private AIDifficulty difficulty;
+    protected AIDifficulty difficulty;
 
     // Base player attributes
     protected int score;
@@ -30,6 +31,10 @@ public class AdversarialAI {
         return this.difficulty.AIMove(model);
     }
 
+    /**
+     * Sets the difficulty level for the AdversarialAI
+     * @param d
+     */
     public void setDifficulty(String d) {
         switch (d.toLowerCase()) {
             case "easy" -> this.difficulty = new DifficultyEasy();
