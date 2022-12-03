@@ -82,8 +82,7 @@ public class SweeperView{
         diff.getItems().add(easy);
         diff.getItems().add(medium);
         diff.getItems().add(hard);
-
- 
+        
         MenuBar mb = new MenuBar();
         mb.getMenus().add(mode);
         mb.getMenus().add(diff);
