@@ -46,19 +46,29 @@ public class SweeperView{
      * with as the user runs the application.
      */
     private void initUI() {
-        Group menu = new Group();
-
-        // Scene/window for the game
         scene = new Scene(createGrid(), 1000, 500);
         this.stage.setTitle("CSC207 MineSweeper");
+        createMenu();
+        this.stage.show();
+    }
 
-        // Scene/window for the menu/intro window
+    /**
+     * Creates a menu window for the MineSweeper game. This will act as the Introduction window that the user
+     * will see once the user runs the application.
+     */
+    private void createMenu() {
+        Group menu = new Group();
         Scene menuScene = new Scene(menu, 1000, 500);
+
+        createTitle(menu);
+        createSettings(menu);
+
         Button game = new Button("Single Player");
         game.setPrefSize(100, 100);
         game.setStyle("-fx-background-color: grey");
         game.setLayoutY(200);
         game.setLayoutX(300);
+        menu.getChildren().add(game);
 
         Button game2 = new Button("Against AI");
         game2.setPrefSize(100, 100);
@@ -67,6 +77,33 @@ public class SweeperView{
         game2.setLayoutX(600);
         menu.getChildren().add(game2);
 
+        this.stage.setScene(menuScene);
+        game.setOnAction(actionEvent -> this.stage.setScene(scene));
+
+        blinkingAnimation(game);
+    }
+
+
+    /**
+     * Create a label for the introduction window, which welcomes a user when running the application.
+     * @param menu the pane which holds the different nodes
+     */
+    private void createTitle(Group menu) {
+        Label welcome = new Label("Welcome to our MineSweeper Game!");
+        welcome.setFont(Font.font("Verdana", FontPosture.REGULAR, 40));
+        welcome.setTranslateX(140);
+        welcome.setTranslateY(100);
+
+        menu.getChildren().add(welcome);
+    }
+
+
+    /**
+     * Create a settings bar which has multiple features to select from depending on what the user likes.
+     * These features can include changing a display and increasing the difficulty against the AI.
+     * @param menu the pane which holds the different nodes
+     */
+    private void createSettings(Group menu) {
         Menu mode = new Menu("MODE");
         MenuItem d = new MenuItem("Dark Mode");
         MenuItem n = new MenuItem("Night Shift");
@@ -82,34 +119,27 @@ public class SweeperView{
         diff.getItems().add(easy);
         diff.getItems().add(medium);
         diff.getItems().add(hard);
-        
+
         MenuBar mb = new MenuBar();
         mb.getMenus().add(mode);
         mb.getMenus().add(diff);
         menu.getChildren().add(mb);
+    }
 
-        menu.getChildren().add(game);
-        this.stage.setScene(menuScene);
-        game.setOnAction(actionEvent -> this.stage.setScene(scene));
 
-        FadeTransition f = new FadeTransition(Duration.millis(3000), game);
+    /**
+     * Animation effect which makes a button fade on or off for a few seconds.
+     * @param b the button that is affected by the blinking/fading.
+     */
+    private void blinkingAnimation(Button b) {
+        FadeTransition f = new FadeTransition(Duration.millis(3000), b);
         f.setFromValue(1.0);
         f.setToValue(0.0);
 
         f.setCycleCount(Timeline.INDEFINITE);
         f.setAutoReverse(true);
         f.play();
-
-        Label welcome = new Label("Welcome to our MineSweeper Game!");
-        welcome.setFont(Font.font("Verdana", FontPosture.REGULAR, 40));
-        welcome.setTranslateX(140);
-        welcome.setTranslateY(100);
-
-        menu.getChildren().add(welcome);
-
-        this.stage.show();
     }
-
 
     /**
      * Given the SweeperBoard, create the MineSweeper Grid and display it on the window. Each cell grid
