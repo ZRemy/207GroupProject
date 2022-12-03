@@ -30,6 +30,7 @@ public class SweeperModel {
         gameOver = false;
     }
 
+
     /**
      * Uncovers a tile on the minesweeper grid and applies the item to the player.
      * @param x the x coordinate of the tile
