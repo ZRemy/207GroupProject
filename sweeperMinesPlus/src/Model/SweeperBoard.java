@@ -2,15 +2,25 @@ package Model;
 
 import java.util.Random;
 
+/** Minesweeper board for a Minesweeper Game.
+ *
+ */
 public class SweeperBoard {
     protected int width; //board height and width
     protected int height;
 
-    private int num_bombs;
+    private final int num_bombs;
 
-    private int num_powerups;
+    private final int num_powerups;
     protected GridItem[][] sweeperGrid;
 
+    /** Initialize the board
+     *
+     * @param w width of the board
+     * @param h height of the board
+     * @param num_b number of bombs
+     * @param num_p number of powerUps/gridItems
+     */
     public SweeperBoard(int w, int h, int num_b, int num_p){
         num_bombs = num_b;
         num_powerups = num_p;
@@ -19,20 +29,24 @@ public class SweeperBoard {
         sweeperGrid = new GridItem[width][height];
         createBoard();
     }
+
+    /** Generate the minesweeper board!
+     *
+     */
     private void createBoard(){
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                sweeperGrid[x][y] = GriditemFactory.createGridItem("", 0, this, x, y);
+                sweeperGrid[x][y] = GriditemFactory.createGridItem("", 0, this, 0, 0);
             }
         }
         int k = 0;
         for (int i = 0; i < num_bombs; i ++){
-            sweeperGrid[k][i -(height  * k)] = GriditemFactory.createGridItem("bomb", i % 2 + 1, this, k, i -(height  * k));
+        
             if ((i + 1) % height == 0 ){
                 k ++;
             }
 
-            }
+        }
 
         k ++;
         int z = k;
@@ -44,8 +58,25 @@ public class SweeperBoard {
 
         }
         shuffleBoard();
+        assignXYVals();
     }
 
+    /**
+     * Assigns proper x and y values to the Empty cells on the board.
+     */
+    private void assignXYVals() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (sweeperGrid[x][y] instanceof Empty){
+                    ((Empty)sweeperGrid[x][y]).x = x;
+                    ((Empty)sweeperGrid[x][y]).y = y;
+                }
+            }
+        }
+    }
+    /**
+     * Shuffles the minesweeper board.
+     */
     private void shuffleBoard(){
         Random random = new Random();
         for (int i = width - 1; i > 0; i--) {
@@ -60,11 +91,26 @@ public class SweeperBoard {
         }
 
     }
+
+    /**
+     * Getter for the height attribute
+     * @return height of the board
+     */
     public int getHeight() {
         return height;
     }
-
+    /**
+     * Getter for the width attribute
+     * @return width of the board
+     */
     public int getWidth() {
         return width;
+    }
+    /**
+     * Getter for the sweeperGrid attribute
+     * @return The grid contained in the board object.
+     */
+    public GridItem[][] getSweeperGrid() {
+        return sweeperGrid;
     }
 }

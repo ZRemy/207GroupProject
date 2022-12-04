@@ -1,16 +1,65 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+/**
+ * Medium Difficulty for the AdversarialAI
+ */
 public class DifficultyMedium implements AIDifficulty{
 
-    private double bombChance;
-    private double bonusLifeChance;
+    private final double bombChance;
 
+    /**
+     * Constructor for DifficultyMedium
+     */
     public DifficultyMedium() {
-        this.bombChance = .1;
-        this.bonusLifeChance = .1;
+        Random rand = new Random();
+        this.bombChance = rand.nextInt(0,100);
     }
 
+    /**
+     * The AI takes a move based on the Easy Difficulty
+     * @param model The current board configuration
+     * @return the corresponding GridItem that the AI will land on within the board
+     */
     @Override
-    public void AIMove(GridItem model) {
+    public GridItem AIMove(SweeperBoard model) {
+        // Initialize griditem variables
+        ArrayList<GridItem> bomb = new ArrayList<>();
+        ArrayList<GridItem> bonus = new ArrayList<>();
+        ArrayList<GridItem> empty = new ArrayList<>();
+        // Iterate through the current SweeperBoard and find an instance of a bomb, bonus life, and empty
+        for (int row = 0; row <= model.height; row++) {
+            for (int col = 0; col <= model.width; col++) {
+                if (model.sweeperGrid[row][col] instanceof Bomb) {
+                    bomb.add(model.sweeperGrid[row][col]);
+                }
+                if (model.sweeperGrid[row][col] instanceof BonusLife) {
+                    bonus.add(model.sweeperGrid[row][col]);
+                }
+                if (model.sweeperGrid[row][col] instanceof Empty) {
+                    empty.add(model.sweeperGrid[row][col]);
+                }
+            }
+        }
+        // On medium mode, there is a 10% chance that the AI clicks a bomb on their turn
+        GridItem result;
+        Random random = new Random();
+        if (0 <= this.bombChance && this.bombChance <= 10) {
+            result = bomb.get(random.nextInt(0,bomb.size()));
+            result.applygridItem();
+            return result;
+        }
+        else if (this.bombChance > 10 && this.bombChance <= 20) {
+            result = bonus.get(random.nextInt(0,bonus.size()));
+            result.applygridItem();
+            return result;
+        }
+        else {
+            result = empty.get(random.nextInt(0,empty.size()));
+            result.applygridItem();
+            return result;
+        }
     }
 }

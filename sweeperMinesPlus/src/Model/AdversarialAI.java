@@ -1,11 +1,12 @@
 package Model;
 
-import java.io.Serializable;
-
-public class AdversarialAI implements Serializable {
+/**
+ * AdversarialAI that the player will play against if a certain mode is chosen
+ */
+public class AdversarialAI {
 
     // AIDiffiulty
-    private AIDifficulty difficulty;
+    protected AIDifficulty difficulty;
 
     // Base player attributes
     protected int score;
@@ -26,17 +27,14 @@ public class AdversarialAI implements Serializable {
      * Have the AI execute a move and apply the grid item to a AI
      * @param model difficulty of the AI
      */
-    public void AIMove(GridItem model) {
-        this.difficulty.AIMove(model);
+    public GridItem AIMove(SweeperBoard model) {
+        return this.difficulty.AIMove(model);
     }
 
-    public void AILose() {
-        this.lives = 0;
-        /*
-        ONCE END GAME IS IMPLEMENTED, FINISH THIS.
-         */
-    }
-
+    /**
+     * Sets the difficulty level for the AdversarialAI
+     * @param d
+     */
     public void setDifficulty(String d) {
         switch (d.toLowerCase()) {
             case "easy" -> this.difficulty = new DifficultyEasy();
