@@ -13,18 +13,24 @@ public class SweeperBoardTests {
     void testInit() {
         SweeperBoard board1 = new SweeperBoard(16, 16, 40, 9);
         SweeperBoard board2 = new SweeperBoard(16, 16, 40, 9);
-        String grid1 = Arrays.deepToString(board1.sweeperGrid).replace("], ", "]\n").replace("[[", "[").replace("]]", "]");
-        String grid2 = Arrays.deepToString(board2.sweeperGrid).replace("], ", "]\n").replace("[[", "[").replace("]]", "]");
+        String grid1 = Arrays.deepToString(board1.sweeperGrid).replace("], ", "]\n").
+                replace("[[", "[").replace("]]", "]");
+        String grid2 = Arrays.deepToString(board2.sweeperGrid).replace("], ", "]\n").
+                replace("[[", "[").replace("]]", "]");
 
         int x = 0;
         int y = 0;
         for (int row = 0; row < board1.sweeperGrid.length; row++) {
             for (int col = 0; col < board1.sweeperGrid[row].length; col++) {
-                if (board1.sweeperGrid[row][col].toString() == "Bomb"){
+                if (Objects.equals(board1.sweeperGrid[row][col].toString(), "Bomb")){
                     x++;
                 }
-                if (board1.sweeperGrid[row][col].toString() == "BonusLife"){
+                else if (Objects.equals(board1.sweeperGrid[row][col].toString(), "BonusLife")){
                     y++;
+                }
+                else{
+                    assertEquals(((Empty)board1.sweeperGrid[row][col]).x, row);
+                    assertEquals(((Empty)board1.sweeperGrid[row][col]).y, col);
                 }
 
             }
@@ -32,7 +38,6 @@ public class SweeperBoardTests {
         assertEquals(9, y);
         assertEquals(40, x);
         assertNotEquals(grid1, grid2);// Make sure that the board shuffles correctly.
-
 
     }
     @Test
@@ -50,35 +55,6 @@ public class SweeperBoardTests {
         assertEquals(8,board1.sweeperGrid[4][9].applygridItem());
     }
 
-    public void sortLeaderboardScores(Leaderboard leaderboard){
-        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-            list.add(entry.getValue());
-        }
-        Collections.sort(list);
-        Collections.reverse(list);
-        for (Integer val : list) {
-            for (Map.Entry<String, Integer> entry : leaderboard.playerScores.entrySet()) {
-                if (entry.getValue().equals(val)) {
-                    sortedMap.put(entry.getKey(), val);
-                }
-            }
-        }
-        leaderboard.playerScores = sortedMap;
-    }
-    @Test
-    void leaderBoardScores(){
-
-        Leaderboard board = Leaderboard.getInstance();
-        board.playerScores.put("Remy", 50);
-        board.playerScores.put("Marc", 50000);
-        board.playerScores.put("Steven", 5000);
-        board.playerScores.put("Bennet", 500);
-        sortLeaderboardScores(board);
-        System.out.println(board.playerScores);
-
-    }
 
     }
 

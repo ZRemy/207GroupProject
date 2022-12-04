@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * The Difficulty of the AI
+ */
 public interface AIDifficulty {
 
     /**
@@ -8,7 +11,6 @@ public interface AIDifficulty {
      *
      * @param model       The current board configuration
      */
-
     public GridItem AIMove(SweeperBoard model);
 
 }
