@@ -10,6 +10,9 @@ public class Player {
 
     /**
      * Constructor for a MineSweeper player.
+     * @param s Player's score
+     * @param n Player's name
+     * @param l Player's current lives
      */
     public  Player(int s, String n, int l){
         score = s;
@@ -29,4 +32,14 @@ public class Player {
             score += item.applygridItem();
         }
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
 }

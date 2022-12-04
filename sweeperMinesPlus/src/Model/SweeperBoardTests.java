@@ -1,8 +1,13 @@
 package Model;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,7 +73,7 @@ public class SweeperBoardTests {
         leaderboard.playerScores = sortedMap;
     }
     @Test
-    void leaderBoardScores(){
+    void leaderBoardScores() throws IOException {
 
         Leaderboard board = Leaderboard.getInstance();
         board.playerScores.put("Remy", 50);
@@ -77,6 +82,17 @@ public class SweeperBoardTests {
         board.playerScores.put("Bennet", 500);
         sortLeaderboardScores(board);
         System.out.println(board.playerScores);
+
+        Group root = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+
+//        TempViewToBeDeletedAfter viewLeaderboard = new TempViewToBeDeletedAfter();
+//
+//        viewLeaderboard.;
 
     }
 

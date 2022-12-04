@@ -1,76 +1,60 @@
-
 package View;
 
 import Model.Leaderboard;
+import Model.Player;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
  *  Controller class for Leaderboard View.
- *  Sourced from: https://gist.github.com/Da9el00/3af0ebbacee5edbc70b67ab2c4782866
+ *
  */
 public class Controller implements Initializable {
 
     //Table
     @FXML
-    private TableView<Leaderboard> tableView;
+    private TableView<Player> tableView;
 
     //Columns
     @FXML
-    private TableColumn<Leaderboard, Integer> rankColumn;
+    private TableColumn<Player, String> nameColumn;
 
     @FXML
-    private TableColumn<Leaderboard, String> nameColumn;
+    private TableColumn<Player, Integer> scoreColumn;
 
-    @FXML
-    private TableColumn<Leaderboard, Integer> scoreColumn;
+    //Leaderboard pointer
+    Leaderboard leaderboardPointer = Leaderboard.getInstance();
 
-    //Text input
-    @FXML
-    private TextField nameInput;
-
-    @FXML
-    private TextField ageInput;
-
-    @FXML
-    private TextField numberInput;
-
-
+    /**
+     *  Automatically updates the leaderboard.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        rankColumn.setCellValueFactory(new PropertyValueFactory<Leaderboard, Integer>("Rank"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Leaderboard, String>("Player"));
-        scoreColumn.setCellValueFactory(new PropertyValueFactory<Leaderboard, Integer>("Score"));
-    }
 
-    //Submit button
-    @FXML
-    void submit(ActionEvent event) {
-        //TODO: instead of creating new instance, call the getter method
-        Leaderboard leaderboardPointer = Leaderboard.getInstance();
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Player, String>("name"));
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<Player, Integer>("score"));
 
-        //Turns into an Observable list
-        ObservableList<Leaderboard> leaderboardRanks = tableView.getItems();
-        leaderboardRanks.add(leaderboardPointer);
-        tableView.setItems(leaderboardRanks);
-    }
 
-    @FXML
-    void removeEntry(ActionEvent event) {
-        int selectedID = tableView.getSelectionModel().getSelectedIndex();
-        tableView.getItems().remove(selectedID);
+        for(int index = 0; index < leaderboardPointer.playerScores.size(); index++){
+            String name = (String) leaderboardPointer.playerScores.keySet().toArray()[index];
+            Player newPlayer = new Player(leaderboardPointer.playerScores.get(name), name, index);
+
+            ObservableList<Player> leaderboardRanks = tableView.getItems();
+            leaderboardRanks.add(newPlayer);
+            tableView.setItems(leaderboardRanks);
+            index++;
+        }
+
     }
 
 
-//    @FXML
-//    void updateView()
+
+
+
 }

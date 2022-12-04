@@ -1,18 +1,19 @@
 package Model;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Leaderboard model for minesweeper game.
  */
-
-//TODO: put this back into the singleton pattern
 
 public final class Leaderboard {
 
     private static final Leaderboard leaderboard = new Leaderboard();
     public HashMap<String, Integer> playerScores = new HashMap<>();
 
+    /**
+     *  Constructor for leaderboard.
+     */
     private Leaderboard(){}
 
     /**
@@ -23,4 +24,6 @@ public final class Leaderboard {
     public static Leaderboard getInstance(){
         return leaderboard;
     }
+
+
 }
