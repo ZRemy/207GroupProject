@@ -1,8 +1,13 @@
 package Model;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,7 +59,6 @@ public class SweeperBoardTests {
         assertEquals(3,board1.sweeperGrid[0][15].applygridItem());
         assertEquals(8,board1.sweeperGrid[4][9].applygridItem());
     }
-
 
     }
 
