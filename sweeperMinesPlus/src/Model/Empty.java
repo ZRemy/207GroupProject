@@ -5,9 +5,7 @@ package Model;
  *
  */
 public class Empty implements GridItem{
-    private SweeperBoard board;
-    int x;
-    int y;
+
 
     /**
      * Constructor for Empty GridItem

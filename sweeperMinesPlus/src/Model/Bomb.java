@@ -6,24 +6,22 @@ package Model;
  */
 public class Bomb implements GridItem {
 
-    private int strength;
+
 
     /**
      * Constructor for a MineSweeper bomb.
 
-     * @param s strength of the griditem
      */
-    public Bomb(int s){
-        strength = s;
+    public Bomb(){
     }
 
     /**
      * Applies the bomb
-     * @return the number of lives to be drained from the player
+     * @return the number of lives to be drained from the player, which is always 1.
      */
     @Override
     public int applygridItem() {
-        return -strength;
+        return -1;
     }
     @Override
     public String toString() {

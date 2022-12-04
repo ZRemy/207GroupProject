@@ -9,9 +9,9 @@ public class SweeperBoard {
     protected int width; //board height and width
     protected int height;
 
-    private int num_bombs;
+    private final int num_bombs;
 
-    private int num_powerups;
+    private final int num_powerups;
     protected GridItem[][] sweeperGrid;
 
     /** Initialize the board
@@ -41,7 +41,7 @@ public class SweeperBoard {
         }
         int k = 0;
         for (int i = 0; i < num_bombs; i ++){
-            sweeperGrid[k][i -(height  * k)] = GriditemFactory.createGridItem("bomb", 1, this, k, i -(height  * k));
+        
             if ((i + 1) % height == 0 ){
                 k ++;
             }
