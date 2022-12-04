@@ -1,50 +1,65 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Easy Difficulty for the AdversarialAI
+ */
 public class DifficultyEasy implements AIDifficulty {
 
     private final double bombChance;
 
+    /**
+     * Constructor for DifficultyEasy
+     */
     public DifficultyEasy() {
         Random rand = new Random();
         this.bombChance = rand.nextInt(0,100);
     }
+
+    /**
+     * The AI takes a move based on the Easy Difficulty
+     * @param model The current board configuration
+     * @return the corresponding GridItem that the AI will land on within the board
+     */
     @Override
     public GridItem AIMove(SweeperBoard model) {
         // Initialize griditem variables
-        GridItem bomb = null;
-        GridItem bonus = null;
-        GridItem empty = null;
+        ArrayList<GridItem> bomb = new ArrayList<>();
+        ArrayList<GridItem> bonus = new ArrayList<>();
+        ArrayList<GridItem> empty = new ArrayList<>();
         // Iterate through the current SweeperBoard and find an instance of a bomb, bonus life, and empty
         for (int row = 0; row <= model.height; row++) {
             for (int col = 0; col <= model.width; col++) {
                 if (model.sweeperGrid[row][col] instanceof Bomb) {
-                    bomb = model.sweeperGrid[row][col];
+                    bomb.add(model.sweeperGrid[row][col]);
                 }
                 if (model.sweeperGrid[row][col] instanceof BonusLife) {
-                    bonus = model.sweeperGrid[row][col];
+                    bonus.add(model.sweeperGrid[row][col]);
                 }
                 if (model.sweeperGrid[row][col] instanceof Empty) {
-                    empty = model.sweeperGrid[row][col];
+                    empty.add(model.sweeperGrid[row][col]);
                 }
             }
         }
         // On easy mode, there is a 20% chance that the AI clicks a bomb on their turn
+        GridItem result;
+        Random random = new Random();
         if (0 <= this.bombChance && this.bombChance <= 20) {
-            assert bomb != null;
-            bomb.applygridItem();
-            return bomb;
+            result = bomb.get(random.nextInt(0,bomb.size()));
+            result.applygridItem();
+            return result;
         }
         else if (this.bombChance > 20 && this.bombChance <= 35) {
-            assert bonus != null;
-            bonus.applygridItem();
-            return bonus;
+            result = bonus.get(random.nextInt(0,bonus.size()));
+            result.applygridItem();
+            return result;
         }
         else {
-            assert empty != null;
-            empty.applygridItem();
-            return empty;
+            result = empty.get(random.nextInt(0,empty.size()));
+            result.applygridItem();
+            return result;
         }
     }
 }
