@@ -12,4 +12,14 @@ public interface GridItem {
      */
     int applygridItem();
 
+    /**
+     * Sets the grid item to an uncovered state.
+     */
+    void uncover();
+
+    /**
+     *
+     * @return if the grid item is uncovered.
+     */
+    boolean isUncovered();
 }

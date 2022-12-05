@@ -37,19 +37,24 @@ public class SweeperModel {
      * Uncovers a tile on the minesweeper grid and applies the item to the player.
      * @param x the x coordinate of the tile
      * @param y the y coordinate of the tile
-     * @return the number of surrounding bombs if an empty cell is uncovered, -2 if the player has no more lives, -1 otherwise.
+     * @return the number of surrounding bombs if an empty cell is uncovered, -2 if the player has no more lives, -1
+     * if it is a bomb or -5 if the tile is uncovered.
      */
     public int uncoverTile(int x, int y){
-        player.move(board.sweeperGrid[x][y]);
-        if (player.lives <= 0){
-            gameOver = true;
-            return -2;
+        if (!board.sweeperGrid[x][y].isUncovered()) {
+            player.move(board.sweeperGrid[x][y]);
+            board.sweeperGrid[x][y].uncover();
+            if (player.lives <= 0) {
+                gameOver = true;
+                return -2;
+            }
+            if (board.sweeperGrid[x][y] instanceof Empty) {
+                return board.sweeperGrid[x][y].applygridItem();
+            }
+            score = player.score;
+            return -1;
         }
-        if (board.sweeperGrid[x][y] instanceof Empty){
-            return board.sweeperGrid[x][y].applygridItem();
-        }
-        score = player.score;
-        return -1;
+        return -5;
     }
 
     /**
@@ -62,6 +67,7 @@ public class SweeperModel {
             }
         }
         leaderboard.playerScores.put(player.name, player.score);
+        sortLeaderboardScores();
     }
 
     public SweeperBoard getBoard() {

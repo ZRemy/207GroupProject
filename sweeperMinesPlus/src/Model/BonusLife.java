@@ -6,13 +6,18 @@ package Model;
 public class BonusLife implements GridItem{
 
     private final int strength;
+    int x;
+    int y;
+    public boolean uncovered;
 
     /**
      * Constructor for BonusLife
      * @param s strength of the powerup
      */
-    public BonusLife(int s){
-        strength = s;
+    public BonusLife(int s, int a, int b){
+        this.x = a;
+        this.y = b;
+        this.strength = s;
     }
 
     /**
@@ -26,5 +31,12 @@ public class BonusLife implements GridItem{
     @Override
     public String toString() {
         return "BonusLife";
+    }
+    @Override
+    public void uncover() {
+        this.uncovered = true;
+    }
+    public boolean isUncovered() {
+        return uncovered;
     }
 }
