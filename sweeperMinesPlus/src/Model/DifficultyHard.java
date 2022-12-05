@@ -46,19 +46,13 @@ public class DifficultyHard implements AIDifficulty{
         Random random = new Random();
         GridItem result;
         if (0 <= this.bombChance && this.bombChance <= 5) {
-            result = bomb.get(random.nextInt(0,bomb.size()));
-            result.applygridItem();
-            return result;
+            return bomb.get(random.nextInt(0,bomb.size()));
         }
         else if (this.bombChance > 5 && this.bombChance <= 20) {
-            result = bonus.get(random.nextInt(0,bonus.size()));
-            result.applygridItem();
-            return result;
+            return bonus.get(random.nextInt(0,bonus.size()));
         }
         else {
-            result = empty.get(random.nextInt(0,empty.size()));
-            result.applygridItem();
-            return result;
+            return empty.get(random.nextInt(0,empty.size()));
         }
     }
 }
