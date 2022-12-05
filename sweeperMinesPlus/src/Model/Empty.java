@@ -8,6 +8,8 @@ public class Empty implements GridItem{
     protected SweeperBoard board;
     protected int x;
     protected int y;
+    public boolean uncovered;
+
 
     /**
      * Constructor for Empty GridItem
@@ -56,7 +58,16 @@ public class Empty implements GridItem{
     }
 
     @Override
+    public void uncover() {
+        this.uncovered = true;
+    }
+
+    @Override
     public String toString() {
         return "Empty";
+    }
+
+    public boolean isUncovered() {
+        return uncovered;
     }
 }

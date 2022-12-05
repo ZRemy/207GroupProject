@@ -41,7 +41,7 @@ public class SweeperBoard {
         }
         int k = 0;
         for (int i = 0; i < num_bombs; i ++){
-            sweeperGrid[k][i -(height * k)] = GriditemFactory.createGridItem("bomb", 1, this, k, i -(height * k));
+            sweeperGrid[k][i -(height * k)] = GriditemFactory.createGridItem("bomb", 1, this, 0,0);
             if ((i + 1) % height == 0 ){
                 k ++;
             }
@@ -51,7 +51,7 @@ public class SweeperBoard {
         k ++;
         int z = k;
         for (int i = 0; i < num_powerups; i++){
-            sweeperGrid[k][i - (height * (k - z))] = GriditemFactory.createGridItem("bonuslife", i % 2 + 1, this, k, (height * (k - z)));
+            sweeperGrid[k][i - (height * (k - z))] = GriditemFactory.createGridItem("bonuslife", i % 2 + 1, this, 0, 0);
             if ((i + 1)  % height == 0 ){
                 k ++;
             }
@@ -70,6 +70,14 @@ public class SweeperBoard {
                 if (sweeperGrid[x][y] instanceof Empty){
                     ((Empty)sweeperGrid[x][y]).x = x;
                     ((Empty)sweeperGrid[x][y]).y = y;
+                }
+                else if (sweeperGrid[x][y] instanceof Bomb){
+                    ((Bomb)sweeperGrid[x][y]).x = x;
+                    ((Bomb)sweeperGrid[x][y]).y = y;
+                }
+                else if (sweeperGrid[x][y] instanceof BonusLife){
+                    ((BonusLife)sweeperGrid[x][y]).x = x;
+                    ((BonusLife)sweeperGrid[x][y]).y = y;
                 }
             }
         }
