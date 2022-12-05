@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -30,6 +31,12 @@ public class SweeperView{
     private Scene scene;
     GridPane boardGrid = new GridPane();
 
+    Parent game;
+    Group menu;
+    Scene menuScene;
+    StackPane gameOver = new StackPane();
+    Scene gameOverScene = new Scene(gameOver, 1000, 500);
+
 
     /**
      * The constructor, which initializes the stage of where and how the scenes will be set up.
@@ -46,7 +53,8 @@ public class SweeperView{
      * with as the user runs the application.
      */
     private void initUI() {
-        scene = new Scene(createGrid(), 1000, 500);
+        game = createGrid();
+        scene = new Scene(game, 1000, 500);
         this.stage.setTitle("CSC207 MineSweeper");
         createMenu();
         this.stage.show();
@@ -57,8 +65,8 @@ public class SweeperView{
      * will see once the user runs the application.
      */
     private void createMenu() {
-        Group menu = new Group();
-        Scene menuScene = new Scene(menu, 1000, 500);
+        menu = new Group();
+        menuScene = new Scene(menu, 1000, 500);
 
         createTitle(menu);
         createSettings(menu);
@@ -105,12 +113,11 @@ public class SweeperView{
      */
     private void createSettings(Group menu) {
         Menu mode = new Menu("MODE");
-        MenuItem d = new MenuItem("Dark Mode");
-        MenuItem n = new MenuItem("Night Shift");
-        MenuItem dn = new MenuItem("Dark Mode & Night Shift");
-        mode.getItems().add(d);
-        mode.getItems().add(n);
-        mode.getItems().add(dn);
+
+        MenuItem normal = new MenuItem("Normal Display");
+        MenuItem dark = new MenuItem("Dark Display");
+        mode.getItems().add(normal);
+        mode.getItems().add(dark);
 
         Menu diff = new Menu("AI-DIFFICULTY");
         MenuItem easy = new MenuItem("Easy");
@@ -124,6 +131,14 @@ public class SweeperView{
         mb.getMenus().add(mode);
         mb.getMenus().add(diff);
         menu.getChildren().add(mb);
+
+        dark.setOnAction(actionEvent -> darkMode());
+    }
+
+
+    private void darkMode() {
+        DarkerDisplay darkDisplay = new DarkerDisplay();
+        darkDisplay.activate();
     }
 
 
@@ -157,17 +172,6 @@ public class SweeperView{
 
         model = new SweeperModel(board, 0, 0, p1);
 
-
-        // Create a list of coordinates where the bombs are located in the grid.
-//        ArrayList<Integer> bombCoordinates = new ArrayList<>();
-//        for (int y = 0; y < board.getWidth(); y++) {
-//            for (int x = 0; x < board.getHeight(); x++) {
-//                if (board.getSweeperGrid()[y][x].toString() == "Bomb") {
-//                    bombCoordinates.add(y);
-//                    bombCoordinates.add(x);
-//                }
-//            }
-//        }
 
         for (int row = 0; row < board.getWidth(); row++) {
             for (int col = 0; col < board.getHeight(); col++) {
@@ -243,6 +247,24 @@ public class SweeperView{
         gameOverText.setTextAlignment(TextAlignment.CENTER);
         gameOverText.setFont(new Font(20));
         gameOver.getChildren().add(gameOverText);
+
+        Button startOver= new Button("Start Over");
+
+        gameOver.getChildren().add(startOver);
+        startOver.setOnAction(actionEvent -> newGame());
+
+        this.stage.setScene(gameOverScene);
+        this.stage.show();
+    }
+
+
+    private void newGame() {
+        StackPane gameOver = new StackPane();
+        Scene gameOverScene = new Scene(gameOver, 1000, 500);
+
+        GridPane grid = createGrid();
+        gameOver.getChildren().add(grid);
+
         this.stage.setScene(gameOverScene);
         this.stage.show();
     }
