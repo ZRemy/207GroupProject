@@ -152,7 +152,7 @@ public class SweeperView{
         Background background = new Background(backgroundFill);
         boardGrid.setBackground(background);
 
-        board = new SweeperBoard(16, 16, 40, 9);
+        board = new SweeperBoard(16, 16, 16, 8);
         Player p1 = new Player(0, "Bennet", 1);
 
         model = new SweeperModel(board, 0, 0, p1);
@@ -198,7 +198,7 @@ public class SweeperView{
             gameOver();
         }
         Image image;
-        if (val > 0) {
+        if (val >= 0) {
             image = new Image("/num" + val + ".png");
         }
         else{
