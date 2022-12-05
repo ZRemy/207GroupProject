@@ -47,19 +47,13 @@ public class DifficultyEasy implements AIDifficulty {
         GridItem result;
         Random random = new Random();
         if (0 <= this.bombChance && this.bombChance <= 20) {
-            result = bomb.get(random.nextInt(0,bomb.size()));
-            result.applygridItem();
-            return result;
+            return bomb.get(random.nextInt(0,bomb.size()));
         }
         else if (this.bombChance > 20 && this.bombChance <= 35) {
-            result = bonus.get(random.nextInt(0,bonus.size()));
-            result.applygridItem();
-            return result;
+            return bonus.get(random.nextInt(0,bonus.size()));
         }
         else {
-            result = empty.get(random.nextInt(0,empty.size()));
-            result.applygridItem();
-            return result;
+            return empty.get(random.nextInt(0,empty.size()));
         }
     }
 }
