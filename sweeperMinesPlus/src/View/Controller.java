@@ -5,11 +5,14 @@ import Model.Player;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+
 
 /**
  *  Controller class for Leaderboard View.
@@ -31,6 +34,9 @@ public class Controller implements Initializable {
     //Leaderboard pointer
     Leaderboard leaderboardPointer = Leaderboard.getInstance();
 
+    @FXML
+    private Button playAgainButton, exitButton;
+
     /**
      *  Automatically updates the leaderboard.
      */
@@ -48,10 +54,55 @@ public class Controller implements Initializable {
             ObservableList<Player> leaderboardRanks = tableView.getItems();
             leaderboardRanks.add(newPlayer);
             tableView.setItems(leaderboardRanks);
-            index++;
         }
 
+
     }
+
+    /**
+     * If the user selects this button, the whole game starts again.
+     */
+    public void playAgain() {
+
+    }
+
+    /**
+     * If the user selects this button, the game exits.
+     */
+    public void exit(){
+
+    }
+
+    /**
+     * Underlines the button.
+     */
+    public void animatePlay(){
+        playAgainButton.setUnderline(true);
+    }
+
+    /**
+     * undoes the effect.
+     */
+    public void unanimatePlay(){
+        playAgainButton.setUnderline(false);
+    }
+
+    /**
+     * Underlines the button.
+     */
+    public void animateExit(){
+        exitButton.setUnderline(true);
+    }
+
+    /**
+     * undoes the effect.
+     */
+    public void unanimateExit(){
+        exitButton.setUnderline(false);
+    }
+
+
+
 
 
 

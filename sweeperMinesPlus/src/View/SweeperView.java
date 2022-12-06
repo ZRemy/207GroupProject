@@ -2,8 +2,10 @@ package View;
 import Model.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -17,6 +19,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.io.IOException;
+
 
 /**
  * The SweeperView class is responsible for implementing the GUI of the MineSweeper game. Taking advantage of the
@@ -29,6 +33,7 @@ public class SweeperView{
     Stage stage;
     private Scene scene;
     GridPane boardGrid = new GridPane();
+    Controller controller;
 
 
     /**
@@ -177,7 +182,13 @@ public class SweeperView{
                 int finalY = col;
                 int finalX = row;
                 button.setOnAction(actionEvent ->
-                        revealButton(finalX, finalY));
+                {
+                    try {
+                        revealButton(finalX, finalY);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         }
         return boardGrid;
@@ -190,12 +201,13 @@ public class SweeperView{
      * @param x the x coordinate of the tile
      * @param y the y coordinate of the tile
      */
-    private void revealButton(int x, int y) {
+    private void revealButton(int x, int y) throws IOException {
         String type = model.getBoard().getSweeperGrid()[x][y].toString();
         Button button = new Button();
         int val = model.uncoverTile(x,y);
+        // If lose
         if (val == -2){
-            gameOver();
+            gameOver(this.stage);
         }
         Image image;
         if (val >= 0) {
@@ -232,19 +244,26 @@ public class SweeperView{
 
 
     /**
-     * This method is used when a bomb is clicked on the board. This sets the current scene to a different scene
-     * that d
+     * This method is used when a bomb is clicked on the board. This sets the current scene to the Leaderboard scene.
      */
-    private void gameOver() {
-        StackPane gameOver = new StackPane();
-        Scene gameOverScene = new Scene(gameOver, 1000, 500);
+    private void gameOver(Stage primaryStage) throws IOException {
 
-        Text gameOverText = new Text("GAME OVER LOSER");
-        gameOverText.setTextAlignment(TextAlignment.CENTER);
-        gameOverText.setFont(new Font(20));
-        gameOver.getChildren().add(gameOverText);
-        this.stage.setScene(gameOverScene);
-        this.stage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
+        primaryStage.setTitle("Leaderboard");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+
+    }
+    //TODO: CREATE A "CHECK IF ALL TILES ARE UNCOVERED" METHOD (MAKE SURE TO PASS IN THIS.STAGE)
+    //TODO: ADD RETURN 10 IF WIN WHICH THEREFORE CALLS THE WIN METHOD, WHICH CALLS THE DIFFERENT FXML FILE.
+    /**
+     * This method is used when all tiles are uncovered, thus the user wins
+     */
+    private void win(Stage primaryStage) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("leaderboardWin.fxml"));
+        primaryStage.setTitle("Leaderboard");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 
 
