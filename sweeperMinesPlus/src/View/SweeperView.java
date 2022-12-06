@@ -35,6 +35,14 @@ public class SweeperView{
     GridPane boardGrid = new GridPane();
     Controller controller;
 
+    Parent game;
+    Group menu;
+    Scene menuScene;
+    StackPane gameOver = new StackPane();
+    Scene gameOverScene = new Scene(gameOver, 1000, 500);
+
+    Player p1;
+
 
     /**
      * The constructor, which initializes the stage of where and how the scenes will be set up.
@@ -51,9 +59,12 @@ public class SweeperView{
      * with as the user runs the application.
      */
     private void initUI() {
-        scene = new Scene(createGrid(), 1000, 500);
-        this.stage.setTitle("CSC207 MineSweeper");
         createMenu();
+
+        game = createGrid();
+        scene = new Scene(game, 1000, 500);
+        this.stage.setTitle("CSC207 MineSweeper");
+
         this.stage.show();
     }
 
@@ -62,12 +73,35 @@ public class SweeperView{
      * will see once the user runs the application.
      */
     private void createMenu() {
-        Group menu = new Group();
-        Scene menuScene = new Scene(menu, 1000, 500);
+        menu = new Group();
+        menuScene = new Scene(menu, 1000, 500);
 
         createTitle(menu);
         createSettings(menu);
 
+        // This creates a box where the current user can input their name.
+        StackPane user = new StackPane();
+        user.setLayoutX(420);
+        user.setLayoutY(380);
+        TextField text = new TextField();
+        Text t = new Text();
+        user.getChildren().add(text);
+        user.getChildren().add(t);
+        menu.getChildren().add(user);
+
+        Button create = new Button("Create");
+        create.setLayoutX(470);
+        create.setLayoutY(410);
+        user.getChildren().add(create);
+
+        menu.getChildren().add(create);
+
+        create.setOnAction(actionEvent -> System.out.println(text.getText()));
+
+        p1 = new Player(0, text.getText(), 1);
+
+
+        // Select button to let the user play a single game
         Button game = new Button("Single Player");
         game.setPrefSize(100, 100);
         game.setStyle("-fx-background-color: grey");
@@ -75,12 +109,14 @@ public class SweeperView{
         game.setLayoutX(300);
         menu.getChildren().add(game);
 
+        // Select button to let the user play against the AI
         Button game2 = new Button("Against AI");
         game2.setPrefSize(100, 100);
         game2.setStyle("-fx-background-color: grey");
         game2.setLayoutY(200);
         game2.setLayoutX(600);
         menu.getChildren().add(game2);
+
 
         this.stage.setScene(menuScene);
         game.setOnAction(actionEvent -> this.stage.setScene(scene));
@@ -110,12 +146,11 @@ public class SweeperView{
      */
     private void createSettings(Group menu) {
         Menu mode = new Menu("MODE");
-        MenuItem d = new MenuItem("Dark Mode");
-        MenuItem n = new MenuItem("Night Shift");
-        MenuItem dn = new MenuItem("Dark Mode & Night Shift");
-        mode.getItems().add(d);
-        mode.getItems().add(n);
-        mode.getItems().add(dn);
+
+        MenuItem normal = new MenuItem("Normal Display");
+        MenuItem dark = new MenuItem("Dark Display");
+        mode.getItems().add(normal);
+        mode.getItems().add(dark);
 
         Menu diff = new Menu("AI-DIFFICULTY");
         MenuItem easy = new MenuItem("Easy");
@@ -129,6 +164,14 @@ public class SweeperView{
         mb.getMenus().add(mode);
         mb.getMenus().add(diff);
         menu.getChildren().add(mb);
+
+        dark.setOnAction(actionEvent -> darkMode());
+    }
+
+
+    private void darkMode() {
+        DarkerDisplay darkDisplay = new DarkerDisplay();
+        darkDisplay.activate();
     }
 
 
@@ -158,21 +201,9 @@ public class SweeperView{
         boardGrid.setBackground(background);
 
         board = new SweeperBoard(16, 16, 16, 8);
-        Player p1 = new Player(0, "Bennet", 1);
-
+////        p1 = new Player(0, "Bennet", 1);
         model = new SweeperModel(board, 0, 0, p1);
 
-
-        // Create a list of coordinates where the bombs are located in the grid.
-//        ArrayList<Integer> bombCoordinates = new ArrayList<>();
-//        for (int y = 0; y < board.getWidth(); y++) {
-//            for (int x = 0; x < board.getHeight(); x++) {
-//                if (board.getSweeperGrid()[y][x].toString() == "Bomb") {
-//                    bombCoordinates.add(y);
-//                    bombCoordinates.add(x);
-//                }
-//            }
-//        }
 
         for (int row = 0; row < board.getWidth(); row++) {
             for (int col = 0; col < board.getHeight(); col++) {
@@ -246,6 +277,7 @@ public class SweeperView{
     /**
      * This method is used when a bomb is clicked on the board. This sets the current scene to the Leaderboard scene.
      */
+
     private void gameOver(Stage primaryStage) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
@@ -264,6 +296,19 @@ public class SweeperView{
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+
+
+    private void newGame() {
+        StackPane gameOver = new StackPane();
+        Scene gameOverScene = new Scene(gameOver, 1000, 500);
+
+        GridPane grid = createGrid();
+        gameOver.getChildren().add(grid);
+
+        this.stage.setScene(gameOverScene);
+        this.stage.show();
+
     }
 
 

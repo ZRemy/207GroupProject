@@ -5,14 +5,20 @@ package Model;
  *
  */
 public class Bomb implements GridItem {
-
+    int x;
+    int y;
+    boolean uncovered;
 
 
     /**
      * Constructor for a MineSweeper bomb.
 
      */
-    public Bomb(){
+    public Bomb(int a, int b){
+            this.uncovered = false;
+            this.x = a;
+            this.y = b;
+
     }
 
     /**
@@ -26,5 +32,13 @@ public class Bomb implements GridItem {
     @Override
     public String toString() {
         return "Bomb";
+    }
+    @Override
+    public void uncover() {
+        this.uncovered = true;
+    }
+
+    public boolean isUncovered() {
+        return uncovered;
     }
 }
