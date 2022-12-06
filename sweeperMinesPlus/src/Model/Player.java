@@ -5,7 +5,7 @@ package Model;
  */
 public class Player {
     protected int score;
-    protected String name;
+    public String name;
     protected int lives;
 
     /**
