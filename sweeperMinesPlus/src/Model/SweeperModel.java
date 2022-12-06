@@ -46,11 +46,17 @@ public class SweeperModel {
         if (!board.sweeperGrid[x][y].isUncovered()) {
             player.move(board.sweeperGrid[x][y]);
             board.sweeperGrid[x][y].uncover();
+
             if (player.lives <= 0) {
+                updateLeaderboard();
                 gameOver = true;
                 return -2;
             }
-            if (board.sweeperGrid[x][y] instanceof Empty) {
+            else if (checkWin()){
+                updateLeaderboard();
+                return 10;
+            }
+            else if (board.sweeperGrid[x][y] instanceof Empty) {
                 return board.sweeperGrid[x][y].applygridItem();
             }
             score = player.score;
@@ -90,11 +96,11 @@ public class SweeperModel {
      */
     public void updateLeaderboard(){
         if (leaderboard.playerScores.containsKey(player.name)){
-            if (leaderboard.playerScores.get(player.name) > player.score){
+            if (leaderboard.playerScores.get(player.name) > score){
                 return;
             }
         }
-        leaderboard.playerScores.put(player.name, player.score);
+        leaderboard.playerScores.put(player.name, score);
         sortLeaderboardScores();
     }
 
@@ -121,5 +127,19 @@ public class SweeperModel {
             }
         }
         leaderboard.playerScores = sortedMap;
+    }
+
+    /**
+     * Checks if the player has won.
+     * @return true if the player won, false otherwise.
+     */
+    public boolean checkWin(){
+        boolean winner = true;
+        for (int x = 0; x < board.width; x ++){
+            for (int y = 0; y < board.width; y ++){
+                winner = winner && (board.sweeperGrid[x][y].isUncovered());
+            }
+        }
+        return winner;
     }
 }
