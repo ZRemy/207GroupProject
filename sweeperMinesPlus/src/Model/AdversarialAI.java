@@ -16,11 +16,9 @@ public class AdversarialAI {
     /**
      * Constructor for a MineSweeper Adversarial AI.
      */
-    public AdversarialAI(int s, String n, int l, String d)  {
+    public AdversarialAI(int s, int l)  {
         score = s;
-        name = n;
         lives = l;
-        setDifficulty(d);
     }
 
     /**
@@ -42,5 +40,8 @@ public class AdversarialAI {
             case "hard" -> this.difficulty = new DifficultyHard();
             default -> System.out.println("Invalid difficulty");
         }
+    }
+    public int getScore() {
+        return score;
     }
 }

@@ -30,21 +30,20 @@ public class DifficultyMedium implements AIDifficulty{
         ArrayList<GridItem> bonus = new ArrayList<>();
         ArrayList<GridItem> empty = new ArrayList<>();
         // Iterate through the current SweeperBoard and find an instance of a bomb, bonus life, and empty
-        for (int row = 0; row <= model.height; row++) {
-            for (int col = 0; col <= model.width; col++) {
-                if (model.sweeperGrid[row][col] instanceof Bomb) {
+        for (int row = 0; row <= model.height - 1; row++) {
+            for (int col = 0; col <= model.width - 1; col++) {
+                if (model.sweeperGrid[row][col] instanceof Bomb && !(((Bomb) model.sweeperGrid[row][col]).uncovered)) {
                     bomb.add(model.sweeperGrid[row][col]);
                 }
-                if (model.sweeperGrid[row][col] instanceof BonusLife) {
+                if (model.sweeperGrid[row][col] instanceof BonusLife && !((BonusLife) model.sweeperGrid[row][col]).uncovered) {
                     bonus.add(model.sweeperGrid[row][col]);
                 }
-                if (model.sweeperGrid[row][col] instanceof Empty) {
+                if (model.sweeperGrid[row][col] instanceof Empty && !((Empty) model.sweeperGrid[row][col]).uncovered) {
                     empty.add(model.sweeperGrid[row][col]);
                 }
             }
         }
         // On medium mode, there is a 10% chance that the AI clicks a bomb on their turn
-        GridItem result;
         Random random = new Random();
         if (0 <= this.bombChance && this.bombChance <= 10) {
             return bomb.get(random.nextInt(0,bomb.size()));

@@ -22,14 +22,16 @@ public class SweeperModel {
      * @param c the number of uncovered cells
      * @param s the score
      * @param p the player
+     * @param comp the computer
      */
-    public SweeperModel(SweeperBoard b, int c, int s, Player p){
+    public SweeperModel(SweeperBoard b, int c, int s, Player p, AdversarialAI comp){
         board = b;
         count = c;
         score = s;
         player = p;
         leaderboard = Leaderboard.getInstance();
         gameOver = false;
+        computer = comp;
     }
 
 
@@ -55,6 +57,32 @@ public class SweeperModel {
             return -1;
         }
         return -5;
+    }
+
+    /**
+     * Uncovers a tile on the minesweeper gird for the AdversarialAI and applies the item to the board
+     * @return the number of surrounding bombs if an empty cell is uncovered, -3 if the AI has no more lives,
+     * -1 if it's a bomb or bonus life
+     */
+    public int uncoverTileAI() {
+        //Return the tile that the AdversarialAI will uncover
+        GridItem tile = computer.AIMove(this.board);
+        tile.uncover();
+        //Depending on what kind of GridItem the tile is, react accordingly
+        int aiScore;
+        if (tile instanceof Bomb || tile instanceof BonusLife) {
+            computer.lives += tile.applygridItem();
+        }
+        else if (tile instanceof Empty) {
+            aiScore = tile.applygridItem();
+            computer.score += aiScore;
+            return aiScore;
+        }
+        if (computer.lives <= 0) {
+            gameOver = true;
+            return -3;
+        }
+        return -1;
     }
 
     /**
