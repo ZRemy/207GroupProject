@@ -1,4 +1,4 @@
-package Model;
+package Model.GridItem;
 
 
 /** Bomb gridItem for MineSweeper
@@ -28,15 +28,28 @@ public class Bomb implements GridItem {
     public int applyGridItem() {
         return -1;
     }
+
+    /**
+     * String representation of a Bomb
+     * @return "Bomb"
+     */
     @Override
     public String toString() {
         return "Bomb";
     }
+
+    /**
+     * Uncovers the tile containing this Bomb.
+     */
     @Override
     public void uncover() {
         this.uncovered = true;
     }
 
+    /**
+     * Checks if the bomb has been previously uncovered.
+     * @return Whether the bomb has been uncovered.
+     */
     public boolean isUncovered() {
         return uncovered;
     }

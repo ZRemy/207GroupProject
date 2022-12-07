@@ -1,4 +1,6 @@
-package Model;
+package Model.GridItem;
+
+import Model.Board.SweeperBoard;
 
 import java.util.Objects;
 

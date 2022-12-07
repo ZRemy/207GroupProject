@@ -1,4 +1,7 @@
-package Model;
+package Model.AdversarialAI;
+
+import Model.GridItem.GridItem;
+import Model.Board.SweeperBoard;
 
 /**
  * The Difficulty of the AI

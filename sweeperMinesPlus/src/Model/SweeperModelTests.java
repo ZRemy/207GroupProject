@@ -1,6 +1,9 @@
 package Model;
 
 
+import Model.AdversarialAI.AdversarialAI;
+import Model.Board.SweeperBoard;
+import Model.GridItem.Empty;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -22,9 +25,9 @@ public class SweeperModelTests {
         SweeperModel model1 = new SweeperModel(board, 0, 0, p2, computer);
         SweeperModel model2 = new SweeperModel(board, 0, 0, p3, computer);
         SweeperModel model3 = new SweeperModel(board, 0, 0, p4, computer);
-        for (int row = 0; row < board.sweeperGrid.length; row++) {
-            for (int col = 0; col < board.sweeperGrid[row].length; col++) {
-                if (board.sweeperGrid[row][col] instanceof Empty){
+        for (int row = 0; row < board.getSweeperGrid().length; row++) {
+            for (int col = 0; col < board.getSweeperGrid()[row].length; col++) {
+                if (board.getSweeperGrid()[row][col] instanceof Empty){
                     if (row % 4 == 0){
                         model.uncoverTile(row, col);
                     }
@@ -42,7 +45,6 @@ public class SweeperModelTests {
                 }
             }
         }
-        /**
         model.updateLeaderboard();
         model1.updateLeaderboard();
         model2.updateLeaderboard();
@@ -50,7 +52,7 @@ public class SweeperModelTests {
         assert(model.leaderboard.playerScores.get("Marc") > model.leaderboard.playerScores.get("Bennet") &&
                 model.leaderboard.playerScores.get("Bennet") > model.leaderboard.playerScores.get("Remy") &&
                 model.leaderboard.playerScores.get("Remy") > model.leaderboard.playerScores.get("Steven"));
-         **/
+
     }
 
 

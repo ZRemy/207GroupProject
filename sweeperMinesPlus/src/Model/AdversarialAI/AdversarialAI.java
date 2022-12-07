@@ -1,4 +1,7 @@
-package Model;
+package Model.AdversarialAI;
+
+import Model.GridItem.GridItem;
+import Model.Board.SweeperBoard;
 
 /**
  * AdversarialAI that the player will play against if a certain mode is chosen
@@ -9,9 +12,8 @@ public class AdversarialAI {
     protected AIDifficulty difficulty;
 
     // Base player attributes
-    protected int score;
-    protected String name;
-    protected int lives;
+    public int score;
+    public int lives;
 
     /**
      * Constructor for a MineSweeper Adversarial AI.
@@ -31,7 +33,7 @@ public class AdversarialAI {
 
     /**
      * Sets the difficulty level for the AdversarialAI
-     * @param d
+     * @param d the difficulty
      */
     public void setDifficulty(String d) {
         switch (d.toLowerCase()) {
@@ -40,8 +42,5 @@ public class AdversarialAI {
             case "hard" -> this.difficulty = new DifficultyHard();
             default -> System.out.println("Invalid difficulty");
         }
-    }
-    public int getScore() {
-        return score;
     }
 }

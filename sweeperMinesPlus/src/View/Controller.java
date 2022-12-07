@@ -65,8 +65,12 @@ public class Controller implements Initializable {
      * If the user selects this button, the whole game starts again.
      */
     public void playAgain() throws IOException {
+
         view = new SweeperView(new Stage());
         view.createMenu();
+        Stage stage = (Stage) playAgainButton.getScene().getWindow();
+        stage.close();
+
     }
 
     /**

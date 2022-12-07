@@ -1,5 +1,12 @@
-package Model;
+package Model.AdversarialAI;
 
+import Model.GridItem.Bomb;
+import Model.GridItem.BonusLife;
+import Model.GridItem.Empty;
+import Model.GridItem.GridItem;
+import Model.Player;
+import Model.Board.SweeperBoard;
+import Model.SweeperModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +23,6 @@ public class AdversarialAITests {
 
         assertEquals(1, ai.lives);
         assertEquals(0, ai.score);
-        assertEquals("Computer", ai.name);
         AIDifficulty difficulty = new DifficultyEasy();
         assertTrue(ai.difficulty instanceof DifficultyEasy);
     }
@@ -28,13 +34,13 @@ public class AdversarialAITests {
         AdversarialAI ai = new AdversarialAI(0, 1);
         ai.setDifficulty("easy");
         SweeperModel model = new SweeperModel(board, 0, 0, player, ai);
-        GridItem gridItem = ai.AIMove(model.board);
+        GridItem gridItem = ai.AIMove(model.getBoard());
         gridItem.applyGridItem();
         assertTrue(gridItem instanceof Bomb || gridItem instanceof BonusLife || gridItem instanceof Empty);
         int score = model.uncoverTileAI(gridItem);
         System.out.println(score);
-        GridItem gridItem2 = ai.AIMove(model.board);
-        GridItem gridItem3 = ai.AIMove(model.board);
+        GridItem gridItem2 = ai.AIMove(model.getBoard());
+        GridItem gridItem3 = ai.AIMove(model.getBoard());
         System.out.println(model.uncoverTileAI(gridItem2));
         System.out.println(model.uncoverTileAI(gridItem3));
 

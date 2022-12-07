@@ -1,4 +1,6 @@
-package Model;
+package Model.Board;
+
+import Model.GridItem.*;
 
 import java.util.Random;
 
@@ -19,7 +21,7 @@ public class SweeperBoard {
      * @param w width of the board
      * @param h height of the board
      * @param num_b number of bombs
-     * @param num_p number of powerUps/gridItems
+     * @param num_p number of powerUps
      */
     public SweeperBoard(int w, int h, int num_b, int num_p){
         num_bombs = num_b;
