@@ -15,11 +15,11 @@ public class DarkerDisplay implements ScreenDisplayState{
 
     /** This method uses CSS to change the colour state of the game to a darker state, which allows the user to have
      * the option to play the game in a darker setting.
-     * @param s the primary stage where the other scenes and nodes are located.
+     * @param stage the primary stage where the other scenes and nodes are located.
      */
-    public void activate(Stage s){
+    public void activate(Stage stage){
         try {
-            display = new SweeperView(s);
+            display = new SweeperView(stage);
         }
         catch(IOException e){
             return;

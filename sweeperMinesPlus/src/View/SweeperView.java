@@ -4,13 +4,11 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
@@ -18,9 +16,6 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-//import javafx.scene.control.Label;
-
-import javax.swing.text.Position;
 import java.io.IOException;
 
 
@@ -35,20 +30,15 @@ public class SweeperView{
     Stage stage;
     private Scene scene;
     GridPane boardGrid = new GridPane();
-    Controller controller;
-
     Parent game;
     Group menu;
     Scene menuScene;
-    StackPane gameOver = new StackPane();
-    Scene gameOverScene = new Scene(gameOver, 1000, 500);
     boolean vsComputer;
-
     Player p1;
-
     Label score;
-
     Pane initialBoard;
+    MenuItem normal;
+    MenuItem dark;
 
 
     /**
@@ -155,8 +145,8 @@ public class SweeperView{
     private void createSettings(Group menu) {
         Menu mode = new Menu("MODE");
 
-        MenuItem normal = new MenuItem("Normal Display");
-        MenuItem dark = new MenuItem("Dark Display");
+        normal = new MenuItem("Normal Display");
+        dark = new MenuItem("Dark Display");
         mode.getItems().add(normal);
         mode.getItems().add(dark);
 
@@ -177,17 +167,30 @@ public class SweeperView{
         medium.setOnAction(actionEvent -> this.model.computer.setDifficulty("medium"));
         hard.setOnAction(actionEvent -> this.model.computer.setDifficulty("hard"));
 
-        dark.setOnAction(actionEvent -> darkMode());
-        normal.setOnAction(actionEvent -> normalMode());
+        dark.setOnAction(actionEvent -> {
+            try {
+                darkMode();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        normal.setOnAction(actionEvent -> {
+            try {
+                normalMode();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 
     /** Helper method that is activated when the user presses the Normal Display in the MODE settings. Note that
      * this is only activated and seen by the user when the game is in Dark Display.
      */
-    private void normalMode() {
-        NormalDisplay normalDisplay = new NormalDisplay();
-        normalDisplay.activate(stage);
+    private void normalMode() throws IOException {
+        ScreenDisplay screen = new ScreenDisplay();
+        screen.activate(stage);
+        screen.changeToNormalState(stage);
     }
 
 
@@ -195,9 +198,10 @@ public class SweeperView{
      * accessibility feature which helps a user who suffers from eye issues, still be able to enjoy our Minesweeper
      * Game at its finest.
      */
-    private void darkMode() {
-        DarkerDisplay darkDisplay = new DarkerDisplay();
-        darkDisplay.activate(stage);
+    private void darkMode() throws IOException {
+        ScreenDisplay screen = new ScreenDisplay();
+        screen.activate(stage);
+        screen.changeToDarkState(stage);
     }
 
 
