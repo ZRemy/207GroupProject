@@ -1,16 +1,20 @@
 package View;
 import Model.*;
+import Model.AdversarialAI.AdversarialAI;
+import Model.Board.SweeperBoard;
+import Model.GridItem.Bomb;
+import Model.GridItem.BonusLife;
+import Model.GridItem.Empty;
+import Model.GridItem.GridItem;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
@@ -20,7 +24,6 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 //import javafx.scene.control.Label;
 
-import javax.swing.text.Position;
 import java.io.IOException;
 
 
@@ -243,7 +246,7 @@ public class SweeperView{
                     win(this.stage);
                 }
                 Button button = new Button();
-                Image emptyImage = new Image("Empty.png");
+                Image emptyImage = new Image("View/Sprites/Empty.png");
                 resizeButton(button, emptyImage, row, col);
                 int finalY = col;
                 int finalX = row;
@@ -290,9 +293,9 @@ public class SweeperView{
                 win(this.stage);
             }
             else if (val >= 0) {
-                image = new Image("/num" + val + ".png");
+                image = new Image("/View/Sprites/num" + val + ".png");
             } else {
-                image = new Image("/" + type + ".png");
+                image = new Image("/View/Sprites/" + type + ".png");
             }
             ImageView img = new ImageView(image);
             img.setFitWidth(15);
@@ -317,7 +320,6 @@ public class SweeperView{
                 GridItem tile_move = this.model.getAIMove();
                 int comp_val = this.model.uncoverTileAI(tile_move);
                 if (comp_val == -3) {
-                    System.out.println("loser");
                     this.win(this.stage);
                 } else if (comp_val == 10) {
                     this.gameOver(this.stage);
@@ -337,9 +339,9 @@ public class SweeperView{
                     if (comp_val >= 0 && comp_val < 10) {
                         a = ((Empty) tile_move).x;
                         b = ((Empty) tile_move).y;
-                        image1 = new Image("/num" + comp_val + ".png");
+                        image1 = new Image("/View/Sprites/num" + comp_val + ".png");
                     } else {
-                        image1 = new Image("/" + type + ".png");
+                        image1 = new Image("/View/Sprites/" + type + ".png");
                     }
                     Button button = new Button();
                     resizeButton(button, image1, a, b);

@@ -1,5 +1,7 @@
-package Model;
+package Model.GridItem;
 
+
+import Model.Board.SweeperBoard;
 
 /** Empty cell for MineSweeper
  *
@@ -27,7 +29,7 @@ public class Empty implements GridItem{
      */
     @Override
     public int applyGridItem() {
-        Object[][] grid = board.sweeperGrid;
+        Object[][] grid = board.getSweeperGrid();
         int num_surrounding = 0;
         if (x - 1 >= 0 && y - 1 >= 0 && grid[x - 1][y - 1] instanceof Bomb){
             num_surrounding ++;
@@ -35,38 +37,48 @@ public class Empty implements GridItem{
         if (x - 1 >= 0 && grid[x - 1][y] instanceof Bomb){
             num_surrounding ++;
         }
-        if (x - 1 >= 0 && y + 1 < board.height && grid[x - 1][y + 1] instanceof Bomb){
+        if (x - 1 >= 0 && y + 1 < board.getHeight() && grid[x - 1][y + 1] instanceof Bomb){
             num_surrounding ++;
         }
         if (y - 1 >= 0 && grid[x][y - 1] instanceof Bomb){
             num_surrounding ++;
         }
-        if (y + 1 < board.height && grid[x][y + 1] instanceof Bomb){
+        if (y + 1 < board.getHeight() && grid[x][y + 1] instanceof Bomb){
             num_surrounding ++;
         }
-        if (x + 1 < board.width && grid[x + 1][y] instanceof Bomb){
+        if (x + 1 < board.getWidth() && grid[x + 1][y] instanceof Bomb){
             num_surrounding ++;
         }
-        if (x + 1 < board.width && y + 1 < board.height && grid[x + 1][y + 1] instanceof Bomb){
+        if (x + 1 < board.getWidth() && y + 1 < board.getHeight() && grid[x + 1][y + 1] instanceof Bomb){
             num_surrounding ++;
         }
-        if (x + 1 < board.width && y - 1 >= 0 && grid[x + 1][y - 1] instanceof Bomb){
+        if (x + 1 < board.getWidth() && y - 1 >= 0 && grid[x + 1][y - 1] instanceof Bomb){
             num_surrounding ++;
         }
 
         return num_surrounding;
     }
-
+    /**
+     * Uncovers the tile containing this Bomb.
+     */
     @Override
     public void uncover() {
         this.uncovered = true;
     }
 
+    /**
+     * String representation of a Empty GridItem.
+     * @return the name of the GridItem
+     */
     @Override
     public String toString() {
         return "Empty";
     }
 
+    /**
+     * Checks if the Empty GridItem has been previously uncovered.
+     * @return Whether the Empty cell has been uncovered.
+     */
     public boolean isUncovered() {
         return uncovered;
     }

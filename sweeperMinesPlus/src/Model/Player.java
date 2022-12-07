@@ -1,5 +1,9 @@
 package Model;
 
+import Model.GridItem.Bomb;
+import Model.GridItem.BonusLife;
+import Model.GridItem.GridItem;
+
 /** Represents the MineSweeper player.
  *
  */
@@ -33,15 +37,21 @@ public class Player {
         }
     }
 
+    /**
+     * Getter for the player's score
+     * @return Player's score
+     */
     public int getScore() {
         return score;
     }
 
-    public String getName() {
-        return name;
-    }
-
+    /**
+     * Getter for the player's current lives.
+     * @return Player's live count.
+     */
     public int getLives() {
         return lives;
     }
+
+    public String getName(){return name;}
 }

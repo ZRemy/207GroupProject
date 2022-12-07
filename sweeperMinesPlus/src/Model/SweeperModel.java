@@ -1,10 +1,21 @@
 package Model;
 
+import Model.AdversarialAI.AdversarialAI;
+import Model.Board.SweeperBoard;
+import Model.GridItem.Bomb;
+import Model.GridItem.BonusLife;
+import Model.GridItem.Empty;
+import Model.GridItem.GridItem;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
+/**
+ * Represents the model for a game of Minesweeper.
+ */
 public class SweeperModel {
     protected SweeperBoard board;
     protected int count; // How many tiles uncovered
@@ -45,10 +56,10 @@ public class SweeperModel {
      * if it is a bomb or -5 if the tile is uncovered.
      */
     public int uncoverTile(int x, int y){
-        if (!board.sweeperGrid[x][y].isUncovered()) {
-            player.move(board.sweeperGrid[x][y]);
+        if (!board.getSweeperGrid()[x][y].isUncovered()) {
+            player.move(board.getSweeperGrid()[x][y]);
             score = player.score;
-            board.sweeperGrid[x][y].uncover();
+            board.getSweeperGrid()[x][y].uncover();
             updateLeaderboard();
 
             if (player.lives <= 0) {
@@ -58,8 +69,8 @@ public class SweeperModel {
             else if (checkWin()){
                 return 10;
             }
-            else if (board.sweeperGrid[x][y] instanceof Empty) {
-                return board.sweeperGrid[x][y].applyGridItem();
+            else if (board.getSweeperGrid()[x][y] instanceof Empty) {
+                return board.getSweeperGrid()[x][y].applyGridItem();
             }
 
             return -1;
@@ -80,7 +91,7 @@ public class SweeperModel {
         if (checkWin()){
             return 10;
         }
-        if (tile instanceof Bomb ) {
+        if (tile instanceof Bomb) {
             computer.lives += tile.applyGridItem();
             if (computer.lives <= 0) {
                 gameOver = true;
@@ -124,9 +135,12 @@ public class SweeperModel {
         }
         leaderboard.playerScores.put(player.name, score);
         sortLeaderboardScores();
-        System.out.println(leaderboard.playerScores);
     }
 
+    /**
+     * Getter for the board
+     * @return the board attached to this model.
+     */
     public SweeperBoard getBoard() {
         return board;
     }
@@ -158,14 +172,18 @@ public class SweeperModel {
      */
     public boolean checkWin(){
         boolean winner = true;
-        for (int x = 0; x < board.width; x ++){
-            for (int y = 0; y < board.width; y ++){
-                winner = winner && (board.sweeperGrid[x][y].isUncovered());
+        for (int x = 0; x < board.getWidth(); x ++){
+            for (int y = 0; y < board.getWidth(); y ++){
+                winner = winner && (board.getSweeperGrid()[x][y].isUncovered());
             }
         }
         return winner;
     }
 
+    /**
+     * Sets the player's name to <name>
+     * @param name the desired name of the player.
+     */
     public void setPlayerName(String name){
         this.player.name = name;
     }

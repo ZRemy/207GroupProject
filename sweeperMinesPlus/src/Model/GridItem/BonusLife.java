@@ -1,9 +1,9 @@
-package Model;
+package Model.GridItem;
 
 /** A BonusLife Powerup for minesweeper
  *  Increases the player's number of lives when applied.
  */
-public class BonusLife implements GridItem{
+public class BonusLife implements GridItem {
 
     private final int strength;
     public int x;
@@ -28,14 +28,27 @@ public class BonusLife implements GridItem{
     public int applyGridItem() {
         return strength;
     }
+
+    /**
+     * String representation of a BonusLife GridItem.
+     * @return the name of the GridItem
+     */
     @Override
     public String toString() {
         return "BonusLife";
     }
+    /**
+     * Uncovers the tile containing this Bomb.
+     */
     @Override
     public void uncover() {
         this.uncovered = true;
     }
+
+    /**
+     * Checks if the BonusLife has been previously uncovered.
+     * @return Whether the BonusLife has been uncovered.
+     */
     public boolean isUncovered() {
         return uncovered;
     }

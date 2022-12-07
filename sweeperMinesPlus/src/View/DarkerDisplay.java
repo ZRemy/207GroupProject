@@ -24,9 +24,9 @@ public class DarkerDisplay implements ScreenDisplayState{
         catch(IOException e){
             return;
         }
-        display.menu.getStylesheets().add("/darkMode.css");
+        display.menu.getStylesheets().add("/View/darkMode.css");
         display.menuScene.setFill(Color.valueOf("#3f474f"));
-        display.game.getStylesheets().add("/darkMode.css");
-        display.initialBoard.getStylesheets().add("/darkMode.css");
+        display.game.getStylesheets().add("/View/darkMode.css");
+        display.initialBoard.getStylesheets().add("/View/darkMode.css");
     }
 }

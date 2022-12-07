@@ -1,4 +1,4 @@
-package Model;
+package Model.GridItem;
 
 /** A GridItem for a minesweeper game.
  *

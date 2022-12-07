@@ -1,6 +1,7 @@
-package Model;
+package Model.GridItem;
 
 
+import Model.Board.SweeperBoard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

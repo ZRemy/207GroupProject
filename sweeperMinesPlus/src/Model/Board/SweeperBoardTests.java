@@ -1,6 +1,7 @@
-package Model;
+package Model.Board;
 
 
+import Model.GridItem.Empty;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

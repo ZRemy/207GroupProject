@@ -20,10 +20,12 @@ public class RunViewLeaderboard extends Application {
     public void start(Stage primaryStage) throws IOException {
         //Loads the leaderboard View
         Leaderboard board = Leaderboard.getInstance();
-        board.playerScores.put("Remy", 50);
+
         board.playerScores.put("Marc", 50000);
         board.playerScores.put("Steven", 5000);
         board.playerScores.put("Bennet", 500);
+        board.playerScores.put("Remy", 50);
+
 
 
         Parent root = FXMLLoader.load(getClass().getResource("leaderboard.fxml"));
