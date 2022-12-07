@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class DarkerDisplay implements ScreenDisplayState{
-    SweeperView view;
+    public SweeperView display;
 
     /** The constructor for DarkerDisplay
      */
@@ -19,13 +19,14 @@ public class DarkerDisplay implements ScreenDisplayState{
      */
     public void activate(Stage s){
         try {
-            view = new SweeperView(s);
+            display = new SweeperView(s);
         }
         catch(IOException e){
             return;
         }
-        view.menu.getStylesheets().add("/darkMode.css");
-        view.menuScene.setFill(Color.valueOf("#3f474f"));
-        view.game.getStylesheets().add("/darkMode.css");
+        display.menu.getStylesheets().add("/darkMode.css");
+        display.menuScene.setFill(Color.valueOf("#3f474f"));
+        display.game.getStylesheets().add("/darkMode.css");
+        display.initialBoard.getStylesheets().add("/darkMode.css");
     }
 }
