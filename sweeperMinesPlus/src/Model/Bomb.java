@@ -5,8 +5,8 @@ package Model;
  *
  */
 public class Bomb implements GridItem {
-    int x;
-    int y;
+    public int x;
+    public int y;
     boolean uncovered;
 
 

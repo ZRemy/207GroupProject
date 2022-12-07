@@ -6,8 +6,8 @@ package Model;
 public class BonusLife implements GridItem{
 
     private final int strength;
-    int x;
-    int y;
+    public int x;
+    public int y;
     public boolean uncovered;
 
     /**

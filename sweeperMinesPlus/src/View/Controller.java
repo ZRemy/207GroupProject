@@ -2,6 +2,7 @@ package View;
 
 import Model.Leaderboard;
 import Model.Player;
+import View.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,9 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 
 
 /**
@@ -20,6 +23,7 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+    SweeperView view;
     //Table
     @FXML
     private TableView<Player> tableView;
@@ -62,15 +66,16 @@ public class Controller implements Initializable {
     /**
      * If the user selects this button, the whole game starts again.
      */
-    public void playAgain() {
-
+    public void playAgain() throws IOException {
+        view = new SweeperView(new Stage());
+        view.createMenu();
     }
 
     /**
      * If the user selects this button, the game exits.
      */
     public void exit(){
-
+        System.exit(1);
     }
 
     /**
@@ -100,12 +105,4 @@ public class Controller implements Initializable {
     public void unanimateExit(){
         exitButton.setUnderline(false);
     }
-
-
-
-
-
-
-
-
 }

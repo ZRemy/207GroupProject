@@ -40,15 +40,18 @@ public class SweeperView{
     Scene menuScene;
     StackPane gameOver = new StackPane();
     Scene gameOverScene = new Scene(gameOver, 1000, 500);
+    boolean vsComputer;
 
     Player p1;
+
+
 
 
     /**
      * The constructor, which initializes the stage of where and how the scenes will be set up.
      * @param stage
      */
-    public SweeperView(Stage stage) {
+    public SweeperView(Stage stage) throws IOException {
         this.stage = stage;
         initUI();
     }
@@ -58,11 +61,11 @@ public class SweeperView{
      * Initializes the SweeperView. This will create three scenes (basically windows), which the user will interact
      * with as the user runs the application.
      */
-    private void initUI() {
+    private void initUI() throws IOException {
         createMenu();
 
         game = createGrid();
-        scene = new Scene(game, 1000, 500);
+        scene = new Scene(game, 600, 400);
         this.stage.setTitle("CSC207 MineSweeper");
 
         this.stage.show();
@@ -72,7 +75,7 @@ public class SweeperView{
      * Creates a menu window for the MineSweeper game. This will act as the Introduction window that the user
      * will see once the user runs the application.
      */
-    private void createMenu() {
+    protected void createMenu() {
         menu = new Group();
         menuScene = new Scene(menu, 1000, 500);
 
@@ -96,7 +99,7 @@ public class SweeperView{
 
         menu.getChildren().add(create);
 
-        create.setOnAction(actionEvent -> System.out.println(text.getText()));
+        create.setOnAction(actionEvent -> this.model.setPlayerName(text.getText()));
 
         p1 = new Player(0, text.getText(), 1);
 
@@ -120,8 +123,9 @@ public class SweeperView{
 
         this.stage.setScene(menuScene);
         game.setOnAction(actionEvent -> this.stage.setScene(scene));
-
+        game2.setOnAction(actionEvent -> playAgainstAI());
         blinkingAnimation(game);
+        blinkingAnimation(game2);
     }
 
 
@@ -165,13 +169,31 @@ public class SweeperView{
         mb.getMenus().add(diff);
         menu.getChildren().add(mb);
 
+        easy.setOnAction(actionEvent -> this.model.computer.setDifficulty("easy"));
+        medium.setOnAction(actionEvent -> this.model.computer.setDifficulty("medium"));
+        hard.setOnAction(actionEvent -> this.model.computer.setDifficulty("hard"));
+
         dark.setOnAction(actionEvent -> darkMode());
+        normal.setOnAction(actionEvent -> normalMode());
     }
 
 
+    /** Helper method that is activated when the user presses the Normal Display in the MODE settings. Note that
+     * this is only activated and seen by the user when the game is in Dark Display.
+     */
+    private void normalMode() {
+        NormalDisplay normalDisplay = new NormalDisplay();
+        normalDisplay.activate(stage);
+    }
+
+
+    /** Helper method that is activated when the user presses the Dark Display in the MODE settings. This is an
+     * accessibility feature which helps a user who suffers from eye issues, still be able to enjoy our Minesweeper
+     * Game at its finest.
+     */
     private void darkMode() {
         DarkerDisplay darkDisplay = new DarkerDisplay();
-        darkDisplay.activate();
+        darkDisplay.activate(stage);
     }
 
 
@@ -193,29 +215,35 @@ public class SweeperView{
      * Given the SweeperBoard, create the MineSweeper Grid and display it on the window. Each cell grid
      * will either be a Bomb, BonusLife, or Empty.
      */
-    private GridPane createGrid() {
+    private GridPane createGrid() throws IOException {
 
         // Set the background color of the game.
         BackgroundFill backgroundFill = new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
         boardGrid.setBackground(background);
 
-        board = new SweeperBoard(16, 16, 16, 8);
+        board = new SweeperBoard(16, 16, 40, 9);
 ////        p1 = new Player(0, "Bennet", 1);
-        model = new SweeperModel(board, 0, 0, p1);
+        AdversarialAI ai = new AdversarialAI(0, 1);
+        ai.setDifficulty("easy");
+        model = new SweeperModel(board, 0, 0, p1, ai);
 
 
         for (int row = 0; row < board.getWidth(); row++) {
             for (int col = 0; col < board.getHeight(); col++) {
+                if (model.won){
+                    win(this.stage);
+                }
                 Button button = new Button();
                 Image emptyImage = new Image("Empty.png");
                 resizeButton(button, emptyImage, row, col);
                 int finalY = col;
                 int finalX = row;
+
                 button.setOnAction(actionEvent ->
                 {
                     try {
-                        revealButton(finalX, finalY);
+                        revealButton(finalX, finalY, button);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -232,22 +260,72 @@ public class SweeperView{
      * @param x the x coordinate of the tile
      * @param y the y coordinate of the tile
      */
-    private void revealButton(int x, int y) throws IOException {
-        String type = model.getBoard().getSweeperGrid()[x][y].toString();
-        Button button = new Button();
-        int val = model.uncoverTile(x,y);
-        // If lose
-        if (val == -2){
-            gameOver(this.stage);
+    private void revealButton(int x, int y, Button button) throws IOException {
+
+        if (!model.getBoard().getSweeperGrid()[x][y].isUncovered()) {
+            Image image = null;
+            String type = model.getBoard().getSweeperGrid()[x][y].toString();
+            int val = model.uncoverTile(x, y);
+            // If lose
+            if (val == -2) {
+                gameOver(this.stage);
+
+            } else if (val == 10) {
+                win(this.stage);
+            }
+            else if (val >= 0) {
+                image = new Image("/num" + val + ".png");
+            } else {
+                image = new Image("/" + type + ".png");
+            }
+            ImageView img = new ImageView(image);
+            img.setFitWidth(15);
+            img.setFitHeight(15);
+            img.setX(x);
+            img.setY(y);
+            button.setGraphic(img);
+            if (vsComputer){
+                revealAIButton();
+            }
+
         }
-        Image image;
-        if (val >= 0) {
-            image = new Image("/num" + val + ".png");
-        }
-        else{
-            image = new Image("/" + type + ".png");
-        }
-        resizeButton(button, image, x, y);
+    }
+    private void revealAIButton() throws IOException {
+            String type = "";
+            if (vsComputer) {
+                GridItem tile_move = this.model.getAIMove();
+                int comp_val = this.model.uncoverTileAI(tile_move);
+                if (comp_val == -3) {
+                    System.out.println("loser");
+                    this.win(this.stage);
+                } else if (comp_val == 10) {
+                    this.gameOver(this.stage);
+                } else {
+                    int a = 0;
+                    int b = 0;
+                    if (comp_val == -1) {
+                        type = "Bomb";
+                        a = ((Bomb) tile_move).x;
+                        b = ((Bomb) tile_move).y;
+                    } else if (comp_val == -2) {
+                        type = "BonusLife";
+                        a = ((BonusLife) tile_move).x;
+                        b = ((BonusLife) tile_move).y;
+                    }
+                    Image image1;
+                    if (comp_val >= 0 && comp_val < 10) {
+                        a = ((Empty) tile_move).x;
+                        b = ((Empty) tile_move).y;
+                        image1 = new Image("/num" + comp_val + ".png");
+                    } else {
+                        image1 = new Image("/" + type + ".png");
+                    }
+                    Button button = new Button();
+                    resizeButton(button, image1, a, b);
+                }
+            }
+
+
     }
 
 
@@ -291,15 +369,15 @@ public class SweeperView{
     /**
      * This method is used when all tiles are uncovered, thus the user wins
      */
-    private void win(Stage primaryStage) throws IOException{
+    private void win(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("leaderboardWin.fxml"));
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+    }
 
 
-
-    private void newGame() {
+    private void newGame() throws IOException {
         StackPane gameOver = new StackPane();
         Scene gameOverScene = new Scene(gameOver, 1000, 500);
 
@@ -311,7 +389,10 @@ public class SweeperView{
 
     }
 
-
+    private void playAgainstAI(){
+        vsComputer = true;
+        this.stage.setScene(scene);
+    }
     /**
      * Update board on UI
      */

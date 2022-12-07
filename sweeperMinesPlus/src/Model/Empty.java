@@ -6,8 +6,8 @@ package Model;
  */
 public class Empty implements GridItem{
     protected SweeperBoard board;
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     public boolean uncovered;
 
 

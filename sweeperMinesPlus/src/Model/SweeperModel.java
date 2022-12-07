@@ -11,8 +11,9 @@ public class SweeperModel {
     protected int score;
     protected Player player;
 
-    protected AdversarialAI computer;
+    public AdversarialAI computer;
 
+    public boolean won;
     protected boolean gameOver;
     protected Leaderboard leaderboard;
 
@@ -31,6 +32,7 @@ public class SweeperModel {
         player = p;
         leaderboard = Leaderboard.getInstance();
         gameOver = false;
+        won = false;
         computer = comp;
     }
 
@@ -45,56 +47,76 @@ public class SweeperModel {
     public int uncoverTile(int x, int y){
         if (!board.sweeperGrid[x][y].isUncovered()) {
             player.move(board.sweeperGrid[x][y]);
+            score = player.score;
             board.sweeperGrid[x][y].uncover();
+            updateLeaderboard();
 
             if (player.lives <= 0) {
-                updateLeaderboard();
                 gameOver = true;
                 return -2;
             }
             else if (checkWin()){
-                updateLeaderboard();
                 return 10;
             }
             else if (board.sweeperGrid[x][y] instanceof Empty) {
                 return board.sweeperGrid[x][y].applygridItem();
             }
-            score = player.score;
+
             return -1;
         }
         return -5;
     }
 
-    /**
-     * Uncovers a tile on the minesweeper gird for the AdversarialAI and applies the item to the board
+    /** Uncovers a tile on the minesweeper gird for the AdversarialAI and applies the item to the board
      * @return the number of surrounding bombs if an empty cell is uncovered, -3 if the AI has no more lives,
-     * -1 if it's a bomb or bonus life
+     * -1 if it's a bomb, -2 if it's a bonus life
      */
-    public int uncoverTileAI() {
+    public int uncoverTileAI(GridItem tile) {
         //Return the tile that the AdversarialAI will uncover
-        GridItem tile = computer.AIMove(this.board);
         tile.uncover();
+        updateLeaderboard();
         //Depending on what kind of GridItem the tile is, react accordingly
         int aiScore;
-        if (tile instanceof Bomb || tile instanceof BonusLife) {
+        if (checkWin()){
+            return 10;
+        }
+        if (tile instanceof Bomb ) {
             computer.lives += tile.applygridItem();
+            if (computer.lives <= 0) {
+                gameOver = true;
+                this.won = true;
+                return -3;
+            }
+            return -1;
+        }
+
+        else if (tile instanceof BonusLife) {
+            computer.lives += tile.applygridItem();
+            return -2;
         }
         else if (tile instanceof Empty) {
             aiScore = tile.applygridItem();
             computer.score += aiScore;
             return aiScore;
         }
-        if (computer.lives <= 0) {
-            gameOver = true;
-            return -3;
-        }
-        return -1;
+        return 0;
+    }
+
+    /**
+     *  Sends the view the tile the computer wants to uncover.
+     * @return The tile the computer has moved.
+     */
+    public GridItem getAIMove() {
+        //Return the tile that the AdversarialAI will uncover
+        return computer.AIMove(this.board);
+
     }
 
     /**
      *  Updates the leaderboard with the player's highscore.
      */
     public void updateLeaderboard(){
+
         if (leaderboard.playerScores.containsKey(player.name)){
             if (leaderboard.playerScores.get(player.name) > score){
                 return;
@@ -102,6 +124,7 @@ public class SweeperModel {
         }
         leaderboard.playerScores.put(player.name, score);
         sortLeaderboardScores();
+        System.out.println(leaderboard.playerScores);
     }
 
     public SweeperBoard getBoard() {
@@ -141,5 +164,9 @@ public class SweeperModel {
             }
         }
         return winner;
+    }
+
+    public void setPlayerName(String name){
+        this.player.name = name;
     }
 }

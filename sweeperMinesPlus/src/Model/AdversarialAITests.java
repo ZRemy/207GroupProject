@@ -31,8 +31,13 @@ public class AdversarialAITests {
         GridItem gridItem = ai.AIMove(model.board);
         gridItem.applygridItem();
         assertTrue(gridItem instanceof Bomb || gridItem instanceof BonusLife || gridItem instanceof Empty);
-        int score = model.uncoverTileAI();
+        int score = model.uncoverTileAI(gridItem);
         System.out.println(score);
+        GridItem gridItem2 = ai.AIMove(model.board);
+        GridItem gridItem3 = ai.AIMove(model.board);
+        System.out.println(model.uncoverTileAI(gridItem2));
+        System.out.println(model.uncoverTileAI(gridItem3));
+
         // Once SweeperModel is fully implemented to support the AdversarialAI, AIMove can be
         // Properly tested.
     }

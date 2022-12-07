@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class DifficultyMedium implements AIDifficulty{
 
-    private final double bombChance;
+    private double bombChance;
 
     /**
      * Constructor for DifficultyMedium
@@ -46,12 +46,18 @@ public class DifficultyMedium implements AIDifficulty{
         // On medium mode, there is a 10% chance that the AI clicks a bomb on their turn
         Random random = new Random();
         if (0 <= this.bombChance && this.bombChance <= 10) {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return bomb.get(random.nextInt(0,bomb.size()));
         }
         else if (this.bombChance > 10 && this.bombChance <= 20) {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return bonus.get(random.nextInt(0,bonus.size()));
         }
         else {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return empty.get(random.nextInt(0,empty.size()));
         }
     }

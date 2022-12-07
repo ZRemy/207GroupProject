@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class DifficultyHard implements AIDifficulty{
 
-    private final double bombChance;
+    private double bombChance;
 
     /**
      * Constructor for DifficultyHard
@@ -45,12 +45,18 @@ public class DifficultyHard implements AIDifficulty{
         // On hard mode, there is a 5% chance that the AI clicks a bomb on their turn
         Random random = new Random();
         if (0 <= this.bombChance && this.bombChance <= 5) {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return bomb.get(random.nextInt(0,bomb.size()));
         }
         else if (this.bombChance > 5 && this.bombChance <= 20) {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return bonus.get(random.nextInt(0,bonus.size()));
         }
         else {
+            //Reset BombChance for the next time that AIMove is called
+            this.bombChance = random.nextInt(0,100);
             return empty.get(random.nextInt(0,empty.size()));
         }
     }
