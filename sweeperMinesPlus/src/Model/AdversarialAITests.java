@@ -29,7 +29,7 @@ public class AdversarialAITests {
         ai.setDifficulty("easy");
         SweeperModel model = new SweeperModel(board, 0, 0, player, ai);
         GridItem gridItem = ai.AIMove(model.board);
-        gridItem.applygridItem();
+        gridItem.applyGridItem();
         assertTrue(gridItem instanceof Bomb || gridItem instanceof BonusLife || gridItem instanceof Empty);
         int score = model.uncoverTileAI(gridItem);
         System.out.println(score);

@@ -8,7 +8,7 @@ import java.util.Map;
 public class SweeperModel {
     protected SweeperBoard board;
     protected int count; // How many tiles uncovered
-    protected int score;
+    public int score;
     protected Player player;
 
     public AdversarialAI computer;
@@ -59,7 +59,7 @@ public class SweeperModel {
                 return 10;
             }
             else if (board.sweeperGrid[x][y] instanceof Empty) {
-                return board.sweeperGrid[x][y].applygridItem();
+                return board.sweeperGrid[x][y].applyGridItem();
             }
 
             return -1;
@@ -81,7 +81,7 @@ public class SweeperModel {
             return 10;
         }
         if (tile instanceof Bomb ) {
-            computer.lives += tile.applygridItem();
+            computer.lives += tile.applyGridItem();
             if (computer.lives <= 0) {
                 gameOver = true;
                 this.won = true;
@@ -91,11 +91,11 @@ public class SweeperModel {
         }
 
         else if (tile instanceof BonusLife) {
-            computer.lives += tile.applygridItem();
+            computer.lives += tile.applyGridItem();
             return -2;
         }
         else if (tile instanceof Empty) {
-            aiScore = tile.applygridItem();
+            aiScore = tile.applyGridItem();
             computer.score += aiScore;
             return aiScore;
         }

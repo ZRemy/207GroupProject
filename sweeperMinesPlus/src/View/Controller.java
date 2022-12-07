@@ -59,8 +59,6 @@ public class Controller implements Initializable {
             leaderboardRanks.add(newPlayer);
             tableView.setItems(leaderboardRanks);
         }
-
-
     }
 
     /**

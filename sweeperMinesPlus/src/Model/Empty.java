@@ -26,7 +26,7 @@ public class Empty implements GridItem{
      * @return the number of surrounding bombs.
      */
     @Override
-    public int applygridItem() {
+    public int applyGridItem() {
         Object[][] grid = board.sweeperGrid;
         int num_surrounding = 0;
         if (x - 1 >= 0 && y - 1 >= 0 && grid[x - 1][y - 1] instanceof Bomb){

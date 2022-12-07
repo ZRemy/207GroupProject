@@ -10,7 +10,7 @@ public interface GridItem {
      * @return The number of surrounding bombs if the GridItem is of type Empty, The number of lives to remove if the
      * type of the GridItem is Bomb, or the number of lives to restore if the GridItem is of type BonusLife.
      */
-    int applygridItem();
+    int applyGridItem();
 
     /**
      * Sets the grid item to an uncovered state.

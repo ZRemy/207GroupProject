@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,12 +14,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+//import javafx.scene.control.Label;
 
+import javax.swing.text.Position;
 import java.io.IOException;
 
 
@@ -44,7 +46,9 @@ public class SweeperView{
 
     Player p1;
 
+    Label score;
 
+    Pane initialBoard;
 
 
     /**
@@ -63,9 +67,8 @@ public class SweeperView{
      */
     private void initUI() throws IOException {
         createMenu();
-
         game = createGrid();
-        scene = new Scene(game, 600, 400);
+        scene = new Scene(game, 600, 500);
         this.stage.setTitle("CSC207 MineSweeper");
 
         this.stage.show();
@@ -81,6 +84,7 @@ public class SweeperView{
 
         createTitle(menu);
         createSettings(menu);
+
 
         // This creates a box where the current user can input their name.
         StackPane user = new StackPane();
@@ -215,22 +219,26 @@ public class SweeperView{
      * Given the SweeperBoard, create the MineSweeper Grid and display it on the window. Each cell grid
      * will either be a Bomb, BonusLife, or Empty.
      */
-    private GridPane createGrid() throws IOException {
+    private Pane createGrid() throws IOException {
+        initialBoard = new Pane();
 
-        // Set the background color of the game.
-        BackgroundFill backgroundFill = new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        boardGrid.setBackground(background);
+        Button score1 = new Button();
+        score1.setText("Score: " + p1.getScore() + "      Lives: " + p1.getLives());
+        score1.setLayoutX(238);
+        score1.setLayoutY(0);
+
+
+        boardGrid.setPadding(new Insets(25, 25, 25, 25));
 
         board = new SweeperBoard(16, 16, 40, 9);
-////        p1 = new Player(0, "Bennet", 1);
         AdversarialAI ai = new AdversarialAI(0, 1);
         ai.setDifficulty("easy");
         model = new SweeperModel(board, 0, 0, p1, ai);
-
+        score = new Label();
 
         for (int row = 0; row < board.getWidth(); row++) {
             for (int col = 0; col < board.getHeight(); col++) {
+
                 if (model.won){
                     win(this.stage);
                 }
@@ -244,13 +252,21 @@ public class SweeperView{
                 {
                     try {
                         revealButton(finalX, finalY, button);
+                        score1.setText("Score: " + model.score + "      Lives: " + p1.getLives());
+
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 });
             }
         }
-        return boardGrid;
+        boardGrid.setLayoutX(20);
+        boardGrid.setLayoutY(40);
+
+        initialBoard.getChildren().add(score1);
+        initialBoard.getChildren().add(boardGrid);
+
+        return initialBoard;
     }
 
 
@@ -290,6 +306,11 @@ public class SweeperView{
 
         }
     }
+
+    /**
+     *
+     * @throws IOException
+     */
     private void revealAIButton() throws IOException {
             String type = "";
             if (vsComputer) {
@@ -374,19 +395,6 @@ public class SweeperView{
         primaryStage.setTitle("Leaderboard");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-    }
-
-
-    private void newGame() throws IOException {
-        StackPane gameOver = new StackPane();
-        Scene gameOverScene = new Scene(gameOver, 1000, 500);
-
-        GridPane grid = createGrid();
-        gameOver.getChildren().add(grid);
-
-        this.stage.setScene(gameOverScene);
-        this.stage.show();
-
     }
 
     private void playAgainstAI(){

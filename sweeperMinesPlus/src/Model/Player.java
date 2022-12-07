@@ -26,10 +26,10 @@ public class Player {
      */
     protected void move(GridItem item){
         if (item instanceof Bomb || item instanceof BonusLife){
-            lives += item.applygridItem();
+            lives += item.applyGridItem();
         }
         else{
-            score += item.applygridItem();
+            score += item.applyGridItem();
         }
     }
 
@@ -41,5 +41,7 @@ public class Player {
         return name;
     }
 
-
+    public int getLives() {
+        return lives;
+    }
 }

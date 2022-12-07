@@ -7,12 +7,11 @@ package Model;
 public class Bomb implements GridItem {
     public int x;
     public int y;
-    boolean uncovered;
+    public boolean uncovered;
 
 
     /**
      * Constructor for a MineSweeper bomb.
-
      */
     public Bomb(int a, int b){
             this.uncovered = false;
@@ -26,7 +25,7 @@ public class Bomb implements GridItem {
      * @return the number of lives to be drained from the player, which is always 1.
      */
     @Override
-    public int applygridItem() {
+    public int applyGridItem() {
         return -1;
     }
     @Override
