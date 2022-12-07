@@ -394,8 +394,7 @@ public class SweeperView{
         primaryStage.show();
 
     }
-    //TODO: CREATE A "CHECK IF ALL TILES ARE UNCOVERED" METHOD (MAKE SURE TO PASS IN THIS.STAGE)
-    //TODO: ADD RETURN 10 IF WIN WHICH THEREFORE CALLS THE WIN METHOD, WHICH CALLS THE DIFFERENT FXML FILE.
+    
     /**
      * This method is used when all tiles are uncovered, thus the user wins
      */
@@ -409,19 +408,5 @@ public class SweeperView{
     private void playAgainstAI(){
         vsComputer = true;
         this.stage.setScene(scene);
-    }
-    /**
-     * Update board on UI
-     */
-    private void updateBoard() {
-
-    }
-
-
-    /**
-     * Update score on UI
-     */
-    private void updateScore() {
-
     }
 }
