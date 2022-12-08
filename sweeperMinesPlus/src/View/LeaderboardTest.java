@@ -9,7 +9,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class RunViewLeaderboard extends Application {
+/**
+ * Testing site for the Leaderboard
+ */
+public class LeaderboardTest extends Application {
 
 
     public static void main(String[] args) {

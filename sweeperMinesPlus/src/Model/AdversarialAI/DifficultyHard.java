@@ -29,7 +29,7 @@ public class DifficultyHard implements AIDifficulty{
      * @return the corresponding GridItem that the AI will land on within the board
      */
     @Override
-    public GridItem AIMove(SweeperBoard model) {
+    public GridItem aiMove(SweeperBoard model) {
         // Initialize griditem variables
         ArrayList<GridItem> bomb = new ArrayList<>();
         ArrayList<GridItem> bonus = new ArrayList<>();

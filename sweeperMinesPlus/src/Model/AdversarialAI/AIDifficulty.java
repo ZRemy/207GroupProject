@@ -14,6 +14,6 @@ public interface AIDifficulty {
      *
      * @param model       The current board configuration
      */
-    public GridItem AIMove(SweeperBoard model);
+    public GridItem aiMove(SweeperBoard model);
 
 }

@@ -106,9 +106,9 @@ public class SweeperModel {
             return -2;
         }
         else if (tile instanceof Empty) {
-            aiScore = tile.applyGridItem();
-            computer.score += aiScore;
-            return aiScore;
+
+
+            return tile.applyGridItem();
         }
         return 0;
     }
@@ -119,7 +119,7 @@ public class SweeperModel {
      */
     public GridItem getAIMove() {
         //Return the tile that the AdversarialAI will uncover
-        return computer.AIMove(this.board);
+        return computer.move(this.board);
 
     }
 

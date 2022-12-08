@@ -20,7 +20,7 @@ public class SweeperModelTests {
         Player p4 = new Player(0, "Steven", 1);
 
         SweeperBoard board = new SweeperBoard(16,16,40,9);
-        AdversarialAI computer = new AdversarialAI(0, 1);
+        AdversarialAI computer = new AdversarialAI();
         SweeperModel model = new SweeperModel(board, 0, 0, p, computer);
         SweeperModel model1 = new SweeperModel(board, 0, 0, p2, computer);
         SweeperModel model2 = new SweeperModel(board, 0, 0, p3, computer);

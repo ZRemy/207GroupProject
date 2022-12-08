@@ -34,6 +34,9 @@ public class Player {
         }
         else{
             score += item.applyGridItem();
+            if (item.applyGridItem() == 0){
+                score += 1;
+            }
         }
     }
 
@@ -53,5 +56,9 @@ public class Player {
         return lives;
     }
 
+    /**
+     * Getter for the player's name. This is used by the FXML controller
+     * @return player name.
+     */
     public String getName(){return name;}
 }

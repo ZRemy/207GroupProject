@@ -241,7 +241,7 @@ public class SweeperView{
         boardGrid.setPadding(new Insets(25, 25, 25, 25));
 
         board = new SweeperBoard(16, 16, 40, 9);
-        AdversarialAI ai = new AdversarialAI(0, 1);
+        AdversarialAI ai = new AdversarialAI();
         ai.setDifficulty("easy");
         model = new SweeperModel(board, 0, 0, p1, ai);
         score = new Label();

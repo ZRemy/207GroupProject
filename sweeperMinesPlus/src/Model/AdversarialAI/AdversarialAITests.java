@@ -18,29 +18,27 @@ public class AdversarialAITests {
     void TestInit() {
         SweeperBoard board = new SweeperBoard(16, 16, 40, 9);
         Player player = new Player(0, "Steven", 1);
-        AdversarialAI ai = new AdversarialAI(0, 1);
+        AdversarialAI ai = new AdversarialAI();
         SweeperModel model = new SweeperModel(board, 0, 0, player, ai);
 
         assertEquals(1, ai.lives);
-        assertEquals(0, ai.score);
-        AIDifficulty difficulty = new DifficultyEasy();
-        assertTrue(ai.difficulty instanceof DifficultyEasy);
+
     }
 
     @Test
     void TestAIMove() {
         SweeperBoard board = new SweeperBoard(16, 16, 40, 9);
         Player player = new Player(0, "Steven", 1);
-        AdversarialAI ai = new AdversarialAI(0, 1);
+        AdversarialAI ai = new AdversarialAI();
         ai.setDifficulty("easy");
         SweeperModel model = new SweeperModel(board, 0, 0, player, ai);
-        GridItem gridItem = ai.AIMove(model.getBoard());
+        GridItem gridItem = ai.move(model.getBoard());
         gridItem.applyGridItem();
         assertTrue(gridItem instanceof Bomb || gridItem instanceof BonusLife || gridItem instanceof Empty);
         int score = model.uncoverTileAI(gridItem);
         System.out.println(score);
-        GridItem gridItem2 = ai.AIMove(model.getBoard());
-        GridItem gridItem3 = ai.AIMove(model.getBoard());
+        GridItem gridItem2 = ai.move(model.getBoard());
+        GridItem gridItem3 = ai.move(model.getBoard());
         System.out.println(model.uncoverTileAI(gridItem2));
         System.out.println(model.uncoverTileAI(gridItem3));
 

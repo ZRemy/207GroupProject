@@ -12,23 +12,22 @@ public class AdversarialAI {
     protected AIDifficulty difficulty;
 
     // Base player attributes
-    public int score;
+
     public int lives;
 
     /**
      * Constructor for a MineSweeper Adversarial AI.
      */
-    public AdversarialAI(int s, int l)  {
-        score = s;
-        lives = l;
+    public AdversarialAI()  {
+        lives = 1;
     }
 
     /**
      * Have the AI execute a move and apply the grid item to a AI
-     * @param model difficulty of the AI
+     * @param board difficulty of the AI
      */
-    public GridItem AIMove(SweeperBoard model) {
-        return this.difficulty.AIMove(model);
+    public GridItem move(SweeperBoard board) {
+        return this.difficulty.aiMove(board);
     }
 
     /**
